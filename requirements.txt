@@ -1,0 +1,43 @@
+# =============================================================================
+# Requirements for the MolMod teaching material
+# =============================================================================
+# The repository has two kinds of programs:
+#   * Notebooks/   - Jupyter notebooks   (need matplotlib + numpy + a Jupyter runtime)
+#   * src/         - standalone GUI scripts (mostly pure Python standard library)
+#
+# Install everything the NOTEBOOKS need with:
+#     python3 -m pip install -r requirements.txt
+# (using a virtual environment is recommended:
+#     python3 -m venv .venv && source .venv/bin/activate)
+#
+# -----------------------------------------------------------------------------
+# Notebooks/*.ipynb
+# -----------------------------------------------------------------------------
+matplotlib>=3.6        # plots + animations (FuncAnimation, jshtml) in every notebook
+numpy>=1.23            # used by Potential-well.ipynb and Random-number.ipynb
+
+# Jupyter runtime to open and run the notebooks (JupyterLab; classic Notebook also listed)
+jupyterlab>=4.0
+notebook>=7.0
+ipykernel>=6.0
+
+# -----------------------------------------------------------------------------
+# src/*.py  -  standalone GUI scripts        [NO pip packages required]
+# -----------------------------------------------------------------------------
+# The LJ-ELEC*, Potential-well, Random-number, MC-PI and GA scripts use only the
+# Python standard library (math, random) plus Tkinter for the GUI. Run e.g.:
+#     python3 src/Potential-well.py
+#
+# Tkinter ships with CPython but on some systems needs an OS package (NOT pip):
+#     macOS (Homebrew):   brew install python-tk
+#     Debian / Ubuntu:    sudo apt install python3-tk
+#     Fedora:             sudo dnf install python3-tkinter
+#
+# -----------------------------------------------------------------------------
+# src/pymoltris3.py  -  Tetris in PyMOL      [special: PyMOL is NOT pip-installable]
+# -----------------------------------------------------------------------------
+# Needs a PyMOL installation, which brings its own Python + numpy. Run with:
+#     pymol src/pymoltris3.py
+# Install PyMOL via conda or your OS package manager, e.g.:
+#     conda install -c conda-forge pymol-open-source
+#     macOS (Homebrew):   brew install pymol
