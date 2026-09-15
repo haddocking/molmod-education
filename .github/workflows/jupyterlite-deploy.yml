@@ -21,7 +21,7 @@ jobs:
       - name: Install JupyterLite build dependencies
         run: python3 -m pip install -r jupyterlite/requirements.txt
 
-      - name: Build JupyterLite site (notebooks only, src/ excluded)
+      - name: Build JupyterLite site from Notebooks
         run: jupyter lite build --contents ../Notebooks --output-dir dist --lite-dir jupyterlite
 
       # Publishes to the root of gh-pages.
