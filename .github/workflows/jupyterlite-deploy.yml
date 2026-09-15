@@ -24,8 +24,7 @@ jobs:
       - name: Build JupyterLite site (notebooks only, src/ excluded)
         run: jupyter lite build --contents ../Notebooks --output-dir dist --lite-dir jupyterlite
 
-      # Publishes to the root of gh-pages. keep_files preserves the pr-preview/
-      # subdirectories that jupyterlite-pr-preview.yml maintains there.
+      # Publishes to the root of gh-pages.
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
