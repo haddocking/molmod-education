@@ -1,0 +1,35 @@
+name: deploy jupyterLite site
+
+on:
+  push:
+    branches: [main, jupyterlite] # TODO: drop jupyterlite once merged to main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install JupyterLite build dependencies
+        run: python3 -m pip install -r jupyterlite/requirements.txt
+
+      - name: Build JupyterLite site (notebooks only, src/ excluded)
+        run: jupyter lite build --contents ../Notebooks --output-dir dist --lite-dir jupyterlite
+
+      # Publishes to the root of gh-pages. keep_files preserves the pr-preview/
+      # subdirectories that jupyterlite-pr-preview.yml maintains there.
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          keep_files: true
