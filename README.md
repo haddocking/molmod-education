@@ -26,9 +26,9 @@ MolMod-education/
 ```
 
 Each notebook is paired with the source script of the same name
-(`Notebooks/Potential-well.ipynb` ↔ `src/Potential-well.py`), with two exceptions:
-`LJ-ELEC_MD-SoftCore` is a **notebook only** (derived, no script) and `pymoltris3.py` is a
-**script only** (no notebook).
+(`Notebooks/Potential-well.ipynb` ↔ `src/Potential-well.py`), with three exceptions:
+`LJ-ELEC_Potentials` and `LJ-ELEC_MD-SoftCore` are **notebook only** (derived, no script) and
+`pymoltris3.py` is a **script only** (no notebook).
 
 ---
 
@@ -70,7 +70,34 @@ Install PyMOL via `conda install -c conda-forge pymol-open-source` or `brew inst
 
 ## Contents by topic
 
-### 1. Energy minimisation — finding the lowest-energy arrangement
+### 1. The interactions — what drives everything else
+
+Before any algorithm: the two pair potentials all the `LJ-ELEC_*` programs are built on, plotted
+on their own.
+
+| Notebook | Script | What you learn |
+|---|---|---|
+| `LJ-ELEC_Potentials` | *(notebook only)* | The **Lennard-Jones** potential split into its **repulsive** (r⁻¹²) and **attractive** (r⁻⁶) components, the **Coulomb** potential, what ε, σ and the dielectric constant do, energy vs force, and why a cutoff is safe for van der Waals but not for electrostatics — in **real force-field units** (Å, kcal/mol, AMBER carbon parameters) |
+
+The **plotting cells start collapsed** (§3), so you see each figure rather than the matplotlib
+that drew it. Collapsing is per cell and changes nothing else — click the blue collapser bar to
+open or close any one of them, and they execute either way. The physics-bearing cells (parameters,
+energy functions, and both exercise stubs) are left open.
+
+It ends with **two graded exercises** (§16) for students to code themselves, each self-checking and
+with a folded worked solution:
+
+1. **Build a softer potential** — derive the general *n-m* prefactor, code an **8-4** potential, and
+   compare it with the 12-6 at the same ε and σ (wall height, well width, tail range). Why do
+   docking and coarse-grained models use softened potentials?
+2. **Balance electrostatics against van der Waals** — find the dielectric constant that makes the
+   two equal at contact, then identify which real solvent that is. (Spoiler: for a full ±1 e ion
+   pair, *none* — it would take ε_r ≈ 800, ten times water.)
+
+*Take-away: read these curves first — the clustering, avoidance and collisions seen in all the
+other notebooks are already written into them.*
+
+### 2. Energy minimisation — finding the lowest-energy arrangement
 
 Minimise the LJ + Coulomb energy of 20 charged particles in a box; compare how different
 optimisers reach (different) local minima.
@@ -83,7 +110,7 @@ optimisers reach (different) local minima.
 
 *Take-away: gradient methods find deeper minima than the simplex in this high-dimensional search.*
 
-### 2. Molecular dynamics — letting the system move in time
+### 3. Molecular dynamics — letting the system move in time
 
 Integrate Newton's equations for the same particle system; look at energy conservation,
 temperature, periodic boundaries and thermostats.
@@ -95,7 +122,7 @@ temperature, periodic boundaries and thermostats.
 | `LJ-ELEC_MD-VelocityVerlet` | `LJ-ELEC_MD-VelocityVerlet.py` | **Velocity-Verlet** + **Berendsen thermostat** (NVE vs NVT; temperature is an average) |
 | `LJ-ELEC_MD-SoftCore`       | *(notebook only)*              | The **soft core** — capping the r⁻¹² wall so a collision can't blow up the simulation |
 
-### 3. Monte Carlo — sampling configurations by chance
+### 4. Monte Carlo — sampling configurations by chance
 
 Metropolis Monte Carlo of the particle system: accept/reject random moves to sample the
 Boltzmann distribution.
@@ -105,13 +132,13 @@ Boltzmann distribution.
 | `LJ-ELEC_MMC`        | `LJ-ELEC_MMC.py`        | **Metropolis Monte Carlo** (displacement + charge-swap moves) |
 | `LJ-ELEC_MMC-dipole` | `LJ-ELEC_MMC-dipole.py` | Monte Carlo with **oriented dipoles** (rotation moves, dipole–dipole energy, head-to-tail ordering) |
 
-### 4. Thermodynamics — enthalpy vs entropy
+### 5. Thermodynamics — enthalpy vs entropy
 
 | Notebook | Script | What you learn |
 |---|---|---|
 | `Potential-well` | `Potential-well.py` | A 1D **double-well** Monte Carlo: **well depth = enthalpy**, **well width = entropy**, and temperature as the referee of ΔG = ΔH − TΔS |
 
-### 5. Algorithms & randomness — standalone demos
+### 6. Algorithms & randomness — standalone demos
 
 Small self-contained programs, not the LJ particle system.
 
@@ -121,7 +148,7 @@ Small self-contained programs, not the LJ particle system.
 | `GA-optimisation` | `GA-optimisation.py` | A **genetic algorithm** evolving a target string (selection, crossover, mutation) |
 | `Random-number` | `Random-number.py` | **How random are random numbers?** — a good RNG (Mersenne Twister) vs a deliberately bad one (*uniform ≠ random*) |
 
-### 6. Just for fun — Tetris in PyMOL
+### 7. Just for fun — Tetris in PyMOL
 
 | Script | What it is |
 |---|---|
@@ -134,6 +161,12 @@ Small self-contained programs, not the LJ particle system.
 - The notebooks keep the **physics identical** to their GUI scripts; they only replace the Tk event
   loop with a headless run loop and matplotlib visualisation. All notebooks execute end-to-end with
   no errors.
+- **Lennard-Jones convention.** All notebooks write the van der Waals energy in the standard form
+  **U = 4ε[(σ/r)¹² − (σ/r)⁶]**, with `Sigma` the separation where U = 0 and `Epsilon` the well
+  depth (reached at R_min = 2^(1/6)·σ). The `src/*.py` scripts still use the equivalent compact
+  form the originals were written in, where the distance parameter is called `Rmin` and the energy
+  parameter is 4ε — so `Epsilon = 6.25` in a notebook and `Epsilon = 25` in its script describe the
+  **same** curve. Numbers and trajectories are unchanged; only the notation differs.
 - These are **teaching toys**: small systems, mixed/loose units and modest step counts, chosen to
   make the concepts visible rather than to be production simulation code.
 
