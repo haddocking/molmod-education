@@ -1,0 +1,7 @@
+dist/
+_output/
+.jupyterlite.doit.db
+
+.venv/
+.venv-lite/
+__pycache__/
