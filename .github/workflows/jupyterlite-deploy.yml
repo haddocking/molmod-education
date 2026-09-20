@@ -2,7 +2,7 @@ name: deploy jupyterLite site
 
 on:
   push:
-    branches: [main, jupyterlite] # TODO: drop jupyterlite once merged to main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
