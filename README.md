@@ -1,5 +1,10 @@
 # MolMod-education
 
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Deploy JupyterLite](https://github.com/haddocking/molmod-education/actions/workflows/jupyterlite-deploy.yml/badge.svg)](https://github.com/haddocking/molmod-education/actions/workflows/jupyterlite-deploy.yml)
+
+[![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://bonvinlab.org/molmod-education/)
+
 Teaching material for the Utrecht University  **Molecular Modelling (MolMod)** courses. Most of these programs
 simulate a small 2D system of **Lennard-Jones + Coulomb** charged particles and let you *watch* how
 different algorithms explore or minimise its energy — energy minimisation, molecular dynamics and
