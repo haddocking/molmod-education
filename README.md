@@ -4,6 +4,7 @@
 [![Deploy JupyterLite](https://github.com/haddocking/molmod-education/actions/workflows/jupyterlite-deploy.yml/badge.svg)](https://github.com/haddocking/molmod-education/actions/workflows/jupyterlite-deploy.yml)
 
 [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://bonvinlab.org/molmod-education/)
+**→ Run the notebooks in your browser: <https://bonvinlab.org/molmod-education/>**
 
 Teaching material for the Utrecht University  **Molecular Modelling (MolMod)** courses. Most of these programs
 simulate a small 2D system of **Lennard-Jones + Coulomb** charged particles and let you *watch* how
@@ -18,6 +19,9 @@ Each topic comes in **two flavours**:
 - **`src/*.py`** — the original **interactive Tkinter GUI** programs the notebooks are based on. The
   physics is identical; you drive them with buttons and sliders.
 
+> 🚀 **No installation needed:** all notebooks also run **directly in your browser** via JupyterLite
+> at **<https://bonvinlab.org/molmod-education/>** — see [Run in your browser](#run-in-your-browser-no-installation-needed).
+
 ---
 
 ## Repository layout
@@ -26,6 +30,8 @@ Each topic comes in **two flavours**:
 MolMod-education/
 ├── Notebooks/         Jupyter notebooks (.ipynb)  — read/run these
 ├── src/               standalone GUI scripts (.py) — the source programs
+├── jupyterlite/       build config for the in-browser JupyterLite site
+├── .github/workflows/ GitHub Action that builds & deploys that site
 ├── requirements.txt   Python dependencies for the notebooks
 └── README.md          this file
 ```
@@ -39,7 +45,31 @@ Each notebook is paired with the source script of the same name
 
 ## Getting started
 
-### Run the notebooks (recommended)
+### Run in your browser (no installation needed)
+
+All notebooks are published as a **[JupyterLite](https://jupyterlite.readthedocs.io/) site** at
+
+**<https://bonvinlab.org/molmod-education/>**
+
+Open the link, pick a notebook from the file browser and run it — everything (Python, matplotlib,
+numpy) executes **inside your browser** via [Pyodide](https://pyodide.org); nothing is installed and
+nothing is sent to a server. This is the quickest way to get going, and the recommended route for
+students.
+
+A few things to know:
+
+- **Your changes are saved in the browser's local storage**, not in the repository. They survive a
+  reload on the same browser/machine, but clearing site data wipes them — use *File → Download* to
+  keep anything you want to hand in or reuse elsewhere.
+- **The first load is slow** (the Python runtime is downloaded once, tens of MB) and each notebook
+  pulls its packages on first run; afterwards it is cached.
+- The longer runs (the 50 000-step velocity-Verlet MD, the animations) are **noticeably slower** than
+  native Python. If you want full speed, install locally as below.
+
+The site is rebuilt and redeployed automatically by a GitHub Action on every push to `main`, so it
+always matches the notebooks in `Notebooks/`.
+
+### Run the notebooks locally
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate     # optional but recommended
@@ -172,6 +202,9 @@ Small self-contained programs, not the LJ particle system.
   form the originals were written in, where the distance parameter is called `Rmin` and the energy
   parameter is 4ε — so `Epsilon = 6.25` in a notebook and `Epsilon = 25` in its script describe the
   **same** curve. Numbers and trajectories are unchanged; only the notation differs.
+- The **browser (JupyterLite) version covers the notebooks only**. The `src/*.py` programs need a
+  real desktop Python — their Tkinter windows (and PyMOL for the Tetris game) cannot run in the
+  browser.
 - These are **teaching toys**: small systems, mixed/loose units and modest step counts, chosen to
   make the concepts visible rather than to be production simulation code.
 
