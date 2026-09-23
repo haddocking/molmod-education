@@ -15,6 +15,11 @@ loop plus matplotlib visualisations.
 - `src/` — the standalone `.py` programs (the 13 GUI scripts, incl. `pymoltris3.py`).
 - `Notebooks/` — the `.ipynb` notebooks. Each notebook's paired source `.py` now lives in `src/`
   (not next to the notebook), e.g. `Notebooks/Potential-well.ipynb` ↔ `src/Potential-well.py`.
+  One exception to the "notebooks only" rule lives here since 2026-09-23: the HADDOCK3
+  antibody-antigen tutorial `HADDOCK3-antibody-antigen-lite.ipynb` (JupyterLite) and its 1.6 MB
+  data directory `Notebooks/HADDOCK3-antibody-antigen-data/` — see the HADDOCK3 section at the end.
+  The **full Colab tutorial it was derived from (`HADDOCK3-antibody-antigen.ipynb`) is no longer in
+  this repo** (removed 2026-09-23, same day): only the lite version ships here.
 - `requirements.txt` (repo root) — pip deps to run the **notebooks** (`matplotlib`, `numpy`,
   `jupyterlab`/`notebook`/`ipykernel`). Documents in comments that the **GUI scripts need no pip
   packages** (stdlib + Tkinter; Tk may need an OS package like `python3-tk`) and that
@@ -543,3 +548,124 @@ logic harness (`exec` the class defs, inject `cmd`/`cgo`/`plain`/`numpy`) confir
 (tuple-index/`.any()`/`take`/`sum`), `Fall()`→`build_field` (6 sphere atoms), `newblock` (4 `_block`
 atoms), `cyl_text`/`load_cgo`, and `checkunderneath` all work. Interactive gameplay (Tk responsiveness +
 rendering) needs a display and was not verified.
+
+## HADDOCK3 antibody-antigen tutorial — Colab notebook → JupyterLite (2026-09-23)
+
+`Notebooks/HADDOCK3-antibody-antigen-lite.ipynb` is an **in-browser (JupyterLite/Pyodide)** HADDOCK3
+tutorial — not part of the LJ family. It is **the only version in this repo**: it was derived from
+the upstream **Colab** tutorial (`HADDOCK3-antibody-antigen.ipynb`, which `pip install`s haddock3,
+`wget`s a 54 MB data bundle, runs `!haddock3 …` docking / scoring / alanine-scanning workflows and
+visualises with py3Dmol + plotly), and that full notebook was **removed from this repo on
+2026-09-23**, the same day both were added. It lives upstream with the HADDOCK3 tutorials.
+
+**Consequences for future edits:**
+
+- Do **not** reintroduce the Colab notebook or a banner cell pointing between the two — the "pair"
+  no longer exists here, and the lite notebook must stand alone (its intro should not assume the
+  reader has the full version next to it).
+- The build script that produced the lite notebook reused the Colab notebook's markdown **by index**
+  (skipping the Colab-only banner cell). That script is therefore **not re-runnable from this repo**;
+  the lite `.ipynb` is now the source of truth — edit it directly (via `nbformat`) rather than
+  rebuilding from an upstream copy.
+
+### What can and cannot run in Pyodide (all checked against the v314.0.6 `pyodide-lock.json`)
+
+- **haddock3 itself: never.** It drives the **CNS** Fortran engine; there is no wasm build. So
+  `haddock3 <cfg>`, `haddock3-score` and the `alascan` module are *described* in the lite notebook
+  and their **pre-calculated results** analysed. There is no shell either, so every `!command` had
+  to go.
+- **But `freesasa` AND `biopython` AND `pandas` ARE in the Pyodide distribution** (2.2.1 / 1.87 /
+  3.0.2) — that is what makes the restraint sections genuinely runnable. `py3Dmol` and `pdb-tools`
+  are pure-Python wheels installed from PyPI. `plotly` is **not** needed at all (see the iframe
+  trick). The install cell is a plain `%pip install -q py3Dmol pdb-tools biopython freesasa pandas`,
+  the same idiom as the other notebooks in this repo.
+- **The tutorial data cannot be downloaded from the browser**: `surfdrive.surf.nl` serves the zip
+  with **no `Access-Control-Allow-Origin` header**, so the fetch is CORS-blocked. Fixed by shipping
+  a **1.6 MB trimmed subset** as `Notebooks/HADDOCK3-antibody-antigen-data/` (35 files: the
+  pre-processed PDBs, restraints, the 3 workflow cfgs, the shell scripts, and only the run outputs
+  the notebook reads). `jupyter lite build --contents ../Notebooks` copies it into the site, and the
+  Pyodide kernel reads it straight off the JupyterLite drive — **verified in a real browser**: the
+  http server log shows `GET /files/HADDOCK3-antibody-antigen-data/…` for all 22 files the run touches.
+- **`files.rcsb.org` DOES send `access-control-allow-origin: *`**, so `pdb_fetch` works in the
+  browser — via `pyodide.http.open_url` (urllib does not work in Pyodide), falling back to `urllib`
+  off-browser. Use the plain `.pdb` URL, not `.pdb.gz`.
+
+### The iframe trick (the key rendering insight)
+
+**`py3Dmol`'s `view.show()` renders nothing in JupyterLab 4 / JupyterLite.** It publishes raw
+`<script>` in `text/html` plus an `application/3dmoljs_load.v0` mime type that only **Colab** has a
+handler for, and JupyterLab does not execute scripts that come out of a cell.
+
+Fix, used for *everything* interactive in this notebook: wrap a complete HTML document in
+`<iframe srcdoc="…">` — the browser builds the iframe's own document and **its** scripts run
+normally. `show_html()` in the toolbox cell does this (`html.escape(doc, quote=True)`), and
+`show3d(view)` feeds it `view.write_html()` (the public API; `_make_html()` is private).
+
+The same trick removes the plotly dependency: the haddock3 html reports embed their figures as
+`<script id="data1|data2|datatable2" type="application/json">{data, layout}</script>` and load
+plotly from a CDN. `show_plotly()` pulls that JSON out and calls `Plotly.newPlot` in a tiny
+generated page that loads `cdn.plot.ly/plotly-3.0.1.min.js` — no `plotly` Python package, no
+`iplot`, no jupyterlab extension. `datatable2` is not a figure: it is read with `pd.json_normalize`.
+
+Two gotchas: **wrap the iframe in a `<div>`**, or IPython prints `UserWarning: Consider using
+IPython.display.IFrame instead` on every viewer (it sniffs `content.startswith('<iframe')`); and
+escape `</` to `<\/` in the JSON payload so it cannot close the `<script>` early.
+
+### Pure-Python `haddock3-restraints` (verified byte-identical)
+
+The restraint sub-commands are plain Python, so they were reproduced from
+`haddock3/libs/librestraints.py` (Apache-2.0, same licence as this repo) into one folded cell:
+`passive_from_active` (+ `get_surface_resids`, freesasa + the NACCESS `REL_ASA` bb/sc table),
+`parse_actpass_file`, `active_passive_to_ambig`, `read_structure`/`get_bodies`/`build_restraints`/
+`generate_tbl` (= `restrain_bodies`), plus a light `validate_tbl` (the `--quick` parenthesis/quote
+check + "every assign ends in 3 numbers"; the full 234-line selection parser was **not** vendored).
+`align_full` is vendored from `haddock3/libs/libnotebooks.py` (Bio.PDB `Superimposer`).
+
+Each one is checked **in the notebook itself** against the shipped reference file and all print
+`True`:
+
+| step | check |
+|---|---|
+| `pdb-tools` pipelines | regenerated `4G6K_clean.pdb` and `4I1B_clean.pdb` byte-identical to `pdbs/` |
+| `passive_from_active` | `3 24 46 47 48 50 66 76 77 79 80 82 86 87 88 91 93 95 118 119 120` — exact |
+| `active_passive_to_ambig` | 43 restraints, byte-identical to `restraints/ambig-paratope-NMR-epitope.tbl` |
+| `restrain_bodies` | byte-identical (`random.seed(917)` inside haddock3 makes it reproducible) |
+| traceback lookup | AF2 ranks 86/90/91/92/93, AF3 40/81/87/88/89 — matches the tutorial text |
+
+**`freesasa` vs Biopython's `ShrakeRupley`**: the Biopython fallback is *not* equivalent — it flags
+three extra borderline residues (85, 102, 134 at 16–20 % relative ASA against the 15 % cutoff).
+Since freesasa is in Pyodide, use it; do not "simplify" this to Biopython.
+
+**pdb-tools API notes** (the modules expose `run()` generators, far cleaner than driving `main()`):
+`pdb_selres.run(fh, residue_range)` wants a **set of ints**, not `(lo, hi)` tuples; `pdb_merge.run`
+wants **file-like objects** (it calls `.close()`), so pass `StringIO`, not iterators.
+
+### haddock3-score numbers quoted in the notebook
+
+Generated locally with **haddock3 2026.7.0** (the tutorial pins 2025.9.0):
+`4G6M_matched.pdb` → **-149.84**, `4G6M_matched_S150W.pdb` → **-170.26** (S150W is the enriching
+mutation PROT-ON proposes). The cell performs the mutation (a `str.replace` of `SER A 150`, 6 atom
+lines) and prints these as the reference output.
+
+### Verification (do both for any future change)
+
+1. `nbconvert --execute` locally (needs py3Dmol, pdb-tools, biopython, freesasa, pandas) → **0
+   errors**, and every "identical to the provided …" line prints `True`.
+2. **In a real browser**, because the rendering path is the whole point: build the site with
+   `jupyter lite build --contents ../Notebooks --lite-dir jupyterlite` (note `--contents` is
+   resolved **relative to `--lite-dir`**), serve it with `http.server`, then drive it with
+   Playwright (`channel="chrome"` avoids downloading a browser) — Run All Cells, then scrape
+   `[data-mime-type="application/vnd.jupyter.error"]` and check the iframes for `typeof Plotly` /
+   `typeof $3Dmol`.
+
+   Result of that run (2026-09-23): **0 error outputs**, all 33 code cells executed, `PROJECT_DIR`
+   resolved to `/drive/HADDOCK3-antibody-antigen-data`, the RCSB download succeeded and all four
+   "identical to the provided …" checks printed `True`; 12 iframes alive — 8 with `$3Dmol` and a
+   WebGL `<canvas>`, 4 with `Plotly` and 3 `svg.main-svg` each (CAPRI plots, distributions, chord
+   chart, alanine scan) — plus 3 pandas tables, and the zip written to
+   `/drive/HADDOCK3-antibody-antigen-output.zip`.
+
+   Two gotchas when writing such a driver: JupyterLab gives **folded cells no `.jp-InputPrompt`
+   text**, so "everything finished" is *no prompt contains `*`*, not `done == total`; and pipe the
+   script's stdout straight to a file (`python -u … > log`), since a `| tail` swallows everything
+   if the run is killed.
