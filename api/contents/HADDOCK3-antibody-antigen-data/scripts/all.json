@@ -1,0 +1,57 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.757032Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.501636Z",
+      "mimetype": "text/x-sh",
+      "name": "extract-capri-stats-clt.sh",
+      "path": "HADDOCK3-antibody-antigen-data/scripts/extract-capri-stats-clt.sh",
+      "size": 2469,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.757199Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.501947Z",
+      "mimetype": "text/x-sh",
+      "name": "extract-capri-stats.sh",
+      "path": "HADDOCK3-antibody-antigen-data/scripts/extract-capri-stats.sh",
+      "size": 2164,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.757356Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.501947Z",
+      "mimetype": "text/x-sh",
+      "name": "get-alascan-extrema.sh",
+      "path": "HADDOCK3-antibody-antigen-data/scripts/get-alascan-extrema.sh",
+      "size": 1047,
+      "type": "file",
+      "writable": true
+    }
+  ],
+  "created": "2026-09-23T08:09:58.757199Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2026-09-23T08:09:58.757199Z",
+  "mimetype": null,
+  "name": "scripts",
+  "path": "HADDOCK3-antibody-antigen-data/scripts",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}

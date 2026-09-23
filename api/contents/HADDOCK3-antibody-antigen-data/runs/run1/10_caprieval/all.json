@@ -1,0 +1,43 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.755701Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.500892Z",
+      "mimetype": "text/tab-separated-values",
+      "name": "capri_clt.tsv",
+      "path": "HADDOCK3-antibody-antigen-data/runs/run1/10_caprieval/capri_clt.tsv",
+      "size": 1272,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.755847Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.501125Z",
+      "mimetype": "text/tab-separated-values",
+      "name": "capri_ss.tsv",
+      "path": "HADDOCK3-antibody-antigen-data/runs/run1/10_caprieval/capri_ss.tsv",
+      "size": 2247,
+      "type": "file",
+      "writable": true
+    }
+  ],
+  "created": "2026-09-23T08:09:58.755847Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2026-09-23T08:09:58.755847Z",
+  "mimetype": null,
+  "name": "10_caprieval",
+  "path": "HADDOCK3-antibody-antigen-data/runs/run1/10_caprieval",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}

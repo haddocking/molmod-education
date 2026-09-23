@@ -1,0 +1,43 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.752596Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.499265Z",
+      "mimetype": "text/tab-separated-values",
+      "name": "scan_clt_unclustered.tsv",
+      "path": "HADDOCK3-antibody-antigen-data/runs/run-energetics-alascan/2_alascan/scan_clt_unclustered.tsv",
+      "size": 4163,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.752383Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.499162Z",
+      "mimetype": "text/html",
+      "name": "scan_clt_unclustered.html",
+      "path": "HADDOCK3-antibody-antigen-data/runs/run-energetics-alascan/2_alascan/scan_clt_unclustered.html",
+      "size": 19959,
+      "type": "file",
+      "writable": true
+    }
+  ],
+  "created": "2026-09-23T08:09:58.752596Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2026-09-23T08:09:58.752596Z",
+  "mimetype": null,
+  "name": "2_alascan",
+  "path": "HADDOCK3-antibody-antigen-data/runs/run-energetics-alascan/2_alascan",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}

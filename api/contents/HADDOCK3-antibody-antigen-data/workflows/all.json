@@ -1,0 +1,57 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.757530Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.501947Z",
+      "mimetype": null,
+      "name": "docking-antibody-antigen.cfg",
+      "path": "HADDOCK3-antibody-antigen-data/workflows/docking-antibody-antigen.cfg",
+      "size": 2028,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.757682Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.502060Z",
+      "mimetype": null,
+      "name": "interaction-energetics.cfg",
+      "path": "HADDOCK3-antibody-antigen-data/workflows/interaction-energetics.cfg",
+      "size": 775,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.757824Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:36.502060Z",
+      "mimetype": null,
+      "name": "scoring-antibody-antigen.cfg",
+      "path": "HADDOCK3-antibody-antigen-data/workflows/scoring-antibody-antigen.cfg",
+      "size": 1083,
+      "type": "file",
+      "writable": true
+    }
+  ],
+  "created": "2026-09-23T08:09:58.757824Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2026-09-23T08:09:58.757824Z",
+  "mimetype": null,
+  "name": "workflows",
+  "path": "HADDOCK3-antibody-antigen-data/workflows",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}

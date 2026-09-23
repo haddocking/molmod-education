@@ -1,0 +1,29 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2026-09-23T08:09:58.752596Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-09-23T08:09:58.752596Z",
+      "mimetype": null,
+      "name": "2_alascan",
+      "path": "HADDOCK3-antibody-antigen-data/runs/run-energetics-alascan/2_alascan",
+      "size": null,
+      "type": "directory",
+      "writable": true
+    }
+  ],
+  "created": "2026-09-23T08:09:58.752064Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2026-09-23T08:09:58.752064Z",
+  "mimetype": null,
+  "name": "run-energetics-alascan",
+  "path": "HADDOCK3-antibody-antigen-data/runs/run-energetics-alascan",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}
