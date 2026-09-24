@@ -120,7 +120,7 @@ that drew it. Collapsing is per cell and changes nothing else — click the blue
 open or close any one of them, and they execute either way. The physics-bearing cells (parameters,
 energy functions, and both exercise stubs) are left open.
 
-It ends with **two graded exercises** (§16) for students to code themselves, each self-checking and
+It ends with **two exercises** (§16) for students to code themselves, each self-checking and
 with a folded worked solution:
 
 1. **Build a softer potential** — derive the general *n-m* prefactor, code an **8-4** potential, and
@@ -144,7 +144,7 @@ optimisers reach (different) local minima.
 | `LJ-ELEC_EM-conjugate` | `LJ-ELEC_EM-conjugate.py` | **Conjugate gradient** (Fletcher–Reeves), optional steepest-descent warm-up |
 | `LJ-ELEC_EM-simplex`   | `LJ-ELEC_EM-simplex.py`   | **Downhill simplex** (Nelder–Mead) — a derivative-free minimiser |
 
-The steepest-descent notebook ends with **three graded exercises** (§13) for students to code
+The steepest-descent notebook ends with **three exercises** (§13) for students to code
 themselves, each self-checking and with a folded worked solution:
 
 1. **Tune the step-size controller** — sweep `drmax`, `alpha` and `beta` for the lowest energy in
