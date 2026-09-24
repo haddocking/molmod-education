@@ -2,11 +2,11 @@
   "content": [
     {
       "content": null,
-      "created": "2026-09-24T16:06:44.570188Z",
+      "created": "2026-09-24T16:14:31.879031Z",
       "format": null,
       "hash": null,
       "hash_algorithm": null,
-      "last_modified": "2026-09-24T16:06:27.892154Z",
+      "last_modified": "2026-09-24T16:14:10.860019Z",
       "mimetype": "text/tab-separated-values",
       "name": "traceback.tsv",
       "path": "HADDOCK3-antibody-antigen-data/runs/run-scoring/traceback/traceback.tsv",
@@ -15,11 +15,11 @@
       "writable": true
     }
   ],
-  "created": "2026-09-24T16:06:44.570188Z",
+  "created": "2026-09-24T16:14:31.879031Z",
   "format": "json",
   "hash": null,
   "hash_algorithm": null,
-  "last_modified": "2026-09-24T16:06:44.570188Z",
+  "last_modified": "2026-09-24T16:14:31.879031Z",
   "mimetype": null,
   "name": "traceback",
   "path": "HADDOCK3-antibody-antigen-data/runs/run-scoring/traceback",
