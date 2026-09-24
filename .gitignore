@@ -5,3 +5,4 @@ _output/
 .venv/
 .venv-lite/
 __pycache__/
+.ipynb_checkpoints/
