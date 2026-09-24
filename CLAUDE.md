@@ -452,6 +452,20 @@ block), with reusable functions defined above it:
   keep it that way for fidelity.
 - Simplex keeps the original's quirks faithfully: compact simplex of `2*nAtoms` vertices (one per
   displaced coordinate) and a **cumulative** (not consecutive) `n2conv` convergence counter.
+- **Notebook prose does not mention the original Tk GUI** (cleanup finished 2026-09-25). The three
+  recurring sentences — "These are the same parameters exposed by the sliders/entry boxes of the
+  original GUI", "This loop replaces the GUI's `Go` callback / Tkinter event loop" and "This
+  reproduces the live view of the original GUI" — were removed from the EM notebooks (by hand, in
+  Jupyter) and then from `MD-Verlet`, `MD-VelocityVerlet`, `MMC` and `MC-PI-random`. The run
+  sections now open with a plain "This performs the molecular dynamics." / "The run loop: …", the
+  Parameters sections with "Change any of these parameters and re-run …". `MD-Verlet-noPBC`,
+  `MD-SoftCore` and `MMC-dipole` never had them. **Do not reintroduce the GUI framing when writing
+  or porting a notebook** — the `.py` pairing is documented in the README, which is where it
+  belongs. Deliberately kept, because they are statements about the *source program's physics*,
+  not about its interface: MD-noPBC's "the original no-PBC script's big apparent difference"
+  (§6/§7) and MC-PI's "the geometry matches the original program" (§2).
+  One stray reference survives in `LJ-ELEC_EM-conjugate.ipynb` §5 ("instead of using globals as the
+  original GUI did") — left alone so far only because it sat outside the requested scope.
 
 ## Tuning results (with each notebook's current default parameters, Seed=100)
 
