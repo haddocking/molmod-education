@@ -2,11 +2,11 @@
   "content": [
     {
       "content": null,
-      "created": "2026-09-24T16:14:31.884218Z",
+      "created": "2026-09-24T19:05:30.144619Z",
       "format": null,
       "hash": null,
       "hash_algorithm": null,
-      "last_modified": "2026-09-24T16:14:10.862231Z",
+      "last_modified": "2026-09-24T19:05:13.373178Z",
       "mimetype": "text/html",
       "name": "report.html",
       "path": "HADDOCK3-antibody-antigen-data/runs/run1/analysis/10_caprieval_analysis/report.html",
@@ -15,11 +15,11 @@
       "writable": true
     }
   ],
-  "created": "2026-09-24T16:14:31.884218Z",
+  "created": "2026-09-24T19:05:30.144619Z",
   "format": "json",
   "hash": null,
   "hash_algorithm": null,
-  "last_modified": "2026-09-24T16:14:31.884218Z",
+  "last_modified": "2026-09-24T19:05:30.144619Z",
   "mimetype": null,
   "name": "10_caprieval_analysis",
   "path": "HADDOCK3-antibody-antigen-data/runs/run1/analysis/10_caprieval_analysis",
