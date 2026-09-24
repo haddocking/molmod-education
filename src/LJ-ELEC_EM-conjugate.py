@@ -141,21 +141,37 @@ def Conjugate_gradient(atom_coord, drstep, force):
         gamma = 0.0
     normf = sqrt(normf2)
 
+    #
+    # 2) Build the conjugate direction of the whole system:  s = F + gamma * s_prev
+    #
+    svec = []
     for i in range(len(atom_coord)):
-        #
-        # 2) Then move the particles
-        #
+        svec.append(
+            [
+                force[i][0] + gamma * sdirprev[i][0],
+                force[i][1] + gamma * sdirprev[i][1],
+            ]
+        )
+    #
+    # 3) Normalise it as ONE 2N-dimensional vector, exactly as Steepest_descent
+    #    normalises the force, so that drstep is the distance the whole
+    #    configuration moves (and each atom gets its share of it)
+    #
+    norms = 0.0
+    for i in range(len(atom_coord)):
+        norms = norms + svec[i][0] ** 2.0 + svec[i][1] ** 2.0
+    norms = sqrt(norms)
+    #
+    # 4) Then move the particles
+    #
+    for i in range(len(atom_coord)):
         q = atom_coord[i][2]
         r0x = atom_coord[i][0]
         r0y = atom_coord[i][1]
 
-        sx = force[i][0] + gamma * sdirprev[i][0]
-        sy = force[i][1] + gamma * sdirprev[i][1]
-
-        normsdir = sqrt(sx**2.0 + sy**2.0)
-        if normsdir > 0:
-            sx = sx / normsdir
-            sy = sy / normsdir
+        if norms > 0:
+            sx = svec[i][0] / norms
+            sy = svec[i][1] / norms
             r0x = r0x + drstep * sx
             r0y = r0y + drstep * sy
             sdir[i][0] = sx

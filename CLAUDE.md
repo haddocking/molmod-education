@@ -458,7 +458,7 @@ block), with reusable functions defined above it:
 | Method | Final energy | Steps | Key tuned params |
 |---|---|---|---|
 | Steepest descent | ≈ −409 | ~1100 | `deltaE=1e-5`, `normFmin=1e-4` (tightened from 1e-3; descent params left default) |
-| Conjugate gradient | ≈ −383 | ~970 | same stop thresholds; `numsteep=0` (warm-up hurt) |
+| Conjugate gradient | ≈ −409 | ~590 | same stop thresholds; `numsteep=0` (a warm-up never helps — measured, see the CG section above) |
 | Simplex | ≈ −187 | ~620 | `Simplex_step=300`, `FracShrimp1=0.5`, `FracShrimp2=0.4`, `FracExpend=2.0`, `n2conv=600` |
 
 Findings: for the EM methods, aggressive step-size growth finds *shallower* basins — the real win
@@ -470,8 +470,10 @@ by §13 Exercise 3 of the steepest notebook: over seeds 100-129 steepest descent
 in the table above is inside that noise.
 
 Caveat learned the hard way: a standalone re-implementation of the CG loop **diverged** from the
-notebook (predicted −408 vs actual −383). When tuning, sweep parameters against the **notebook's own
-code** (exec its cells), not a paraphrase.
+notebook (predicted −408 vs the −383 the per-atom CG actually gave at the time). When tuning, sweep
+parameters against the **notebook's own code** (exec its cells), not a paraphrase — and note that
+even a faithful paraphrase can diverge through floating-point association alone (see the CG section
+below).
 
 ## `LJ-ELEC_EM-steepest.ipynb` — student exercises (§13, added 2026-09-24)
 
@@ -532,6 +534,73 @@ Exercises**` cell and everything after it**, so a rebuild is idempotent; the fil
 `nbformat.writes` and then non-ASCII escaped to `\uXXXX` to match this notebook's existing
 ascii-escaped JSON (otherwise every pre-existing line shows up as a diff). Figures were inspected
 as PNGs, not just checked for absence of errors — several annotations had to be repositioned.
+
+## `LJ-ELEC_EM-conjugate.ipynb` — history of the §13 exercise (2026-09-24)
+
+The warm-up exercise was first written against the **per-atom** conjugate gradient, before that
+implementation was replaced (next section). Two things from that round are worth keeping:
+
+- It was the exercise's step-size part that **uncovered the per-atom/whole-system asymmetry** in the
+  first place (`Steepest_descent` normalises the whole 2N force vector, `Conjugate_gradient`
+  normalised each atom's direction, so a CG step moved the configuration √N = 4.47× further). With
+  the per-atom stepper the `numsteep` sweep scattered over 49 kcal/mol with no trend — that was
+  largely the ~4.5× step-size jump at the warm-up handover, not the warm-up. After the fix the same
+  sweep is flat.
+- The exercise's conclusion did **not** change: over ten and thirty seeds a steepest-descent
+  warm-up is inside the noise either way. The per-atom numbers (−382.50/967 default, `numsteep=10`
+  → −399.28/808, paired −17.7±13.1 over ten seeds, +4.2±8.4 over thirty) are kept here only as
+  the record of what was measured before the change.
+
+## Conjugate gradient: per-atom → **whole-system** step normalisation (2026-09-24, now the default)
+
+`Conjugate_gradient` used to normalise **each atom's** search direction separately while
+`Steepest_descent` normalises the **whole 2N-vector** — so "one step" meant two different things
+depending on the stepper, and a CG step moved the configuration √N = 4.47× further at the same
+`dr`. That asymmetry came from the original teaching program and was faithfully ported. It is now
+**fixed everywhere**: `s = F + gamma*s_prev` is normalised as one 2N-vector, in both
+`Notebooks/LJ-ELEC_EM-conjugate.ipynb` (§5) and `src/LJ-ELEC_EM-conjugate.py`. (A transitional
+copy `LJ-ELEC_EM-conjugate-globalnorm.ipynb` existed for one session and was deleted when the
+change became the default; the per-atom variant is gone from the repo — do not reintroduce a
+comparison with it.)
+
+**Effect (Seed=100, both notebook and script):** −409.44 in **589 steps**, against the per-atom
+−382.50/967 — i.e. the *same* minimum steepest descent finds (−409.45/1109) in ~half the steps.
+Over 30 seeds: whole-system −337.5±45.6 / 651.8 steps vs per-atom −329.3±41.7 / 1019.5 vs SD
+−311.8±57.2 / 846.7; paired whole−per-atom **dsteps −367.7 ± 90.3 (23/30)**, dE −8.3 ± 9.4 (not
+significant); paired whole−SD **dE −25.7 ± 5.8 (19/30), dsteps −194.9 ± 84.6**.
+
+The `src/*.py` change was verified headlessly by exec'ing the script's own function defs (skip the
+Tk statements: `ast` filter + per-statement try/except NameError) and running its loop: before
+−382.50/967 → after −409.44/589, and one CG step with gamma≠0 is **bit-identical** to the
+notebook's. ⚠️ `src/LJ-ELEC_EM-conjugate.py` has **CRLF** line endings — patch it with
+`open(p, newline='')` + `'\r\n'` patterns, or the whole file shows up as rewritten.
+
+**Consequences propagated (keep them in sync if CG changes again):** the §12/§11 "comparison of the
+three minimizers" tables in the **steepest** and **simplex** notebooks now read
+SD ≈−409/~1110, CG ≈−409/**~590**, simplex ≈−187/~620, with the "CG is shallower but faster"
+bullet replaced by "same minimum, about half the steps (and ~26 kcal/mol deeper over 30 seeds)";
+the steepest notebook's Exercise 3(f) was rewritten accordingly (it used to hang on the −409 vs
+−383 gap). The tuning-results table below was updated too.
+
+### `LJ-ELEC_EM-conjugate.ipynb` — §13 exercise (warm-up), numbers after the change
+
+9 cells (33 total): intro + toolbox (`run_em` with `use_steepest` hook, `quiet`,
+`config_for_seed`) + statement + stub + sweep figure + 10-seed comparison + slopegraph + folded
+solution + "going further". Student TODO is one line: `step <= numsteep or step == 1`.
+
+With the whole-system step the story is clean: the `numsteep` sweep is **flat in energy** — every
+warm-up lands on −409.4 except `numsteep=5` (−393.79/530, a different basin) — and the step count
+only rises past ~20 (589 → 638 → 610 → 587 → 656 → 853 → 969 → 1109). Ten seeds: ns=0
+−363.6±27.9/766, ns=10 −366.0±29.5/637, ns=50 −361.0±33.4/744, pure SD −343.4±30.1/941; paired vs
+ns=0: −2.4±4.7 (6/10), +2.6±8.6 (5/10), +20.2±9.0 (5/10). At 30 seeds ns=10 vs 0 is +6.1±4.3
+(14/30) in energy and −76.5±34.9 in steps — nothing to recommend. `numsteep >= max_iter`
+reproduces the steepest notebook **exactly** (−409.45/1109), used as a cross-notebook check.
+Verified: un-filled 0 errors (~7 s, 2 figures), filled-in 0 errors (~38 s, 4 figures).
+
+⚠️ **Gotcha that cost time:** a scratchpad re-implementation diverged from the notebook on ~half the
+seeds (same start, identical for 12-80 steps, then chaos). Cause: `x += a + b` associates as
+`x + (a+b)` while the notebook writes `x = x + a + b` = `(x+a) + b` — a last-ulp difference amplified
+by the chaotic dynamics. **Both are correct; only the notebook's own output may be quoted.**
 
 ## Converting a remaining script (checklist)
 

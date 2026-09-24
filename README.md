@@ -156,6 +156,14 @@ themselves, each self-checking and with a folded worked solution:
    notebook uses turns out to be the *best* of the ten). The deepest run ends as one compact
    cluster, the shallowest as three fragments a downhill move can never merge.
 
+The conjugate-gradient notebook ends with **one exercise** (§13) of its own: does a
+**steepest-descent warm-up** (`numsteep`) give a deeper minimum, or reach it in fewer steps? The
+sweep answers cleanly — the warm-up never changes *where* the run ends up, and past ~20 steps it
+only adds cost, sliding from 589 steps back towards the 1109 of pure steepest descent — and ten
+starting configurations show the rest of the differences sitting inside their own error bars.
+Setting `numsteep` beyond `max_iter` turns the notebook into the steepest-descent one and
+reproduces it exactly, which is the cross-check the exercise builds on.
+
 *Take-away: gradient methods find deeper minima than the simplex in this high-dimensional search.*
 
 ### 3. Molecular dynamics — letting the system move in time
