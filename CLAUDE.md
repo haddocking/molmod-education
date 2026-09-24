@@ -506,17 +506,27 @@ dependency (stdlib + matplotlib, `from math import isfinite` added locally).
    there is no maximum to find. Part (d) runs the **half-fixed** variant (ascent stepper + *descent*
    dr test): `dr` collapses, it reports **`converged` at E = +1015.4** after 110 steps — a stalled
    run wearing a convergence flag.
-3. **"How local is local?"** (student writes `minimize_with_seed(s)` — the teachable catch is that
-   `InitConf` takes no seed argument, it reads the **global** `Seed`; the provided scan wraps the
-   call in `redirect_stdout` to swallow InitConf's chatter and **restores `Seed` afterwards**).
+3. **"How local is local?"** (student supplies **`SEEDS`**, a list of random seeds — that is the
+   whole TODO since 2026-09-25; `minimize_with_seed(s)` is **provided**, with the teachable catch
+   — `InitConf` takes no seed argument, it reads the **global** `Seed` — pointed out in its
+   docstring. It swallows InitConf's chatter via `redirect_stdout`, records the starting
+   configuration as `result['start']` for the figures, and the cell **restores `Seed` afterwards**;
+   guards cope with a short or single-seed list. The cell also **prepends `_Seed_notebook` (= the
+   notebook's own `Seed`) to the student's list when it is missing**, printing a one-line note:
+   every table and figure then contains the reference run the sections above used. Prepending, not
+   appending, is deliberate — the configuration grid shows only the first 10 seeds, so a reference
+   added at the end could fall off it.)
    Ten seeds 100-109: mean −343.4, sd 30.1, best −409.4 (seed 100), worst −302.7 (seed 104) — a
    **107 kcal/mol spread, 31 % of the mean**. Punchline: **`Seed = 100` is the best of the ten**
    (and still the best of 30: seeds 100-129 give mean −311.8 ± 57.2, worst −193.1), so the −409
    quoted throughout the notebook and in §12 is the lucky run, not a typical one. Correlation
    between starting and final energy **r = +0.04** — a better start buys nothing. Figures: sorted
-   bar chart with the spread shaded + start-vs-final scatter; then **deepest vs shallowest final
-   configuration**, which is the money shot — seed 100 ends as **one compact cluster**, seed 104 as
-   **three separate fragments** that no downhill move can merge. Part (f) turns this back on §12:
+   bar chart with the spread shaded + start-vs-final scatter; then (2026-09-25) a **2 × N grid of
+   every run**, starting configuration on top and minimized underneath, the deepest column outlined
+   green and the shallowest red — the money shot twice over: the top row is ten indistinguishable
+   random gases (so you cannot pick the winner in advance, which is part (d) in pictures) while the
+   bottom row shows seed 100 as **one compact cluster** against seed 104's **three separate
+   fragments** that no downhill move can merge. Capped at the first 10 seeds shown. Part (f) turns this back on §12:
    the 26 kcal/mol SD-vs-CG gap there is well inside the seed spread, so it is not evidence;
    the simplex's −187 is outside it, so that weakness is real.
 
@@ -530,10 +540,24 @@ re-tuning CG/simplex before comparing, a real line search, basin hopping, `frac_
 box.
 
 Build/rewrite notes: built with `nbformat` from a script that **drops any existing `## **13.
-Exercises**` cell and everything after it**, so a rebuild is idempotent; the file is written with
-`nbformat.writes` and then non-ASCII escaped to `\uXXXX` to match this notebook's existing
-ascii-escaped JSON (otherwise every pre-existing line shows up as a diff). Figures were inspected
-as PNGs, not just checked for absence of errors — several annotations had to be repositioned.
+Exercises**` cell and everything after it**, so a rebuild is idempotent. Figures were inspected as
+PNGs, not just checked for absence of errors — several annotations had to be repositioned.
+
+⚠️ **Encoding changed 2026-09-25:** this notebook was re-saved from JupyterLab, which writes
+non-ASCII **literally** (em dashes, not `\uXXXX`). The build now writes plain UTF-8 to match — do
+**not** re-introduce the ascii-escaping pass for this file, or every line with an em dash churns on
+the next Jupyter save. (The other notebooks are still ascii-escaped; follow whatever the file
+already uses.)
+
+⚠️ **Hand edits live in the build script.** The notebook was also edited by hand in Jupyter: the
+references to the original Tk GUI were dropped from §6, §8 and §11, and the Exercise 2 solution lost
+its closing "worth remembering … soft core" sentences. The markdown ones are re-applied by a
+`BODY_EDITS` list of optional (old, new) replacements in the build script (the exercise-section one
+was folded into the cell source); a rebuild from a pristine copy therefore reproduces them, and a
+rebuild from an already-edited notebook simply finds nothing to replace. **Before rebuilding,
+always diff the working tree against HEAD first** — a session started with uncommitted hand edits
+in this file, and blindly regenerating would have discarded them. The regenerated cells also reuse
+the ids of any exercise cell whose content is unchanged, so the diff shows only what really moved.
 
 ## `LJ-ELEC_EM-conjugate.ipynb` — history of the §13 exercise (2026-09-24)
 

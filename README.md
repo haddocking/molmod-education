@@ -151,10 +151,11 @@ themselves, each self-checking and with a folded worked solution:
    the fewest steps, and learn to tell a *converged* run from a merely *stalled* one.
 2. **Run the minimiser backwards** — write a steepest *ascent* and find that there is nothing to
    find: the r⁻¹² wall makes the energy unbounded above, so the run explodes in 21 steps.
-3. **How local is "local"?** — minimise ten different random starting configurations and look at
-   the spread of final energies (here: 107 kcal/mol, a third of the mean — and the seed the
-   notebook uses turns out to be the *best* of the ten). The deepest run ends as one compact
-   cluster, the shallowest as three fragments a downhill move can never merge.
+3. **How local is "local"?** — pick a list of random seeds, minimise all of them, and look at the
+   spread of final energies (with ten seeds: 107 kcal/mol, a third of the mean — and the seed the
+   notebook uses turns out to be the *best* of the ten). A figure draws every run before and after:
+   the starting configurations are indistinguishable, yet the deepest ends as one compact cluster
+   and the shallowest as three fragments a downhill move can never merge.
 
 The conjugate-gradient notebook ends with **one exercise** (§13) of its own: does a
 **steepest-descent warm-up** (`numsteep`) give a deeper minimum, or reach it in fewer steps? The
