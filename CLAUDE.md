@@ -464,11 +464,74 @@ block), with reusable functions defined above it:
 Findings: for the EM methods, aggressive step-size growth finds *shallower* basins — the real win
 was tighter stop thresholds (defaults halted early on a plateau). The simplex scales poorly to the
 40-D search space and stays far shallower even when tuned (illustrates gradient methods winning in
-high dimensions). These are **local** minima; ordering can shift with the seed.
+high dimensions). These are **local** minima; ordering can shift with the seed — quantified later
+by §13 Exercise 3 of the steepest notebook: over seeds 100-129 steepest descent gives −311.8 ± 57.2
+(worst −193), so **−409 is the best of 30 seeds, not a typical run**, and the 26 kcal/mol gap to CG
+in the table above is inside that noise.
 
 Caveat learned the hard way: a standalone re-implementation of the CG loop **diverged** from the
 notebook (predicted −408 vs actual −383). When tuning, sweep parameters against the **notebook's own
 code** (exec its cells), not a paraphrase.
+
+## `LJ-ELEC_EM-steepest.ipynb` — student exercises (§13, added 2026-09-24)
+
+16 cells appended to the steepest-descent notebook (24 → 40); the original 24 cells are untouched
+byte-for-byte. Same mechanism as `LJ-ELEC_Potentials` §16: a `TODO` stub per exercise, a `solved`-
+style guard, every downstream cell degrades gracefully, worked solutions in folded `<details>`.
+**Verified both paths** with `nbconvert --execute`: un-filled (0 errors, prints "Not yet: …", 2
+figures) and filled-in (0 errors, 19/19 code cells executed, 6 figures, ~35 s).
+
+Layout: §13 intro + **toolbox cell** → (statement, stub, figure(s), solution) × 3 → "Going further".
+The toolbox defines `run_em(...)` — the §8 run loop with the parameters as **arguments instead of
+globals**, silent, plus `stepper` / `uphill` / a runaway guard (`abs(Ene) > 1e12` or
+`not isfinite`) — and `sweep`, `pair_distance`, `neighbour_pairs`, `closest_pair`. No new
+dependency (stdlib + matplotlib, `from math import isfinite` added locally).
+
+1. **Tune `drmax`/`alpha`/`beta`** (student fills a `trials` list of triples; `sweep` tabulates and
+   marks the Pareto front; figure = convergence curves + a cost-vs-depth scatter labelled `#k`).
+   Result for the quoted 8 trials: four land in the **same** minimum −409.45, so the contest is
+   cost — `(drmax=10, alpha=1.20, beta=0.50)` wins with **909 steps** vs the default's 1109 (−18 %).
+   Failures: `beta=0.95` (−409.09) and `alpha=beta=1` (−409.34) oscillate to `max_iter`;
+   `(1.20, 0.90)` −401.57; `(1.01, 0.50)` **stalls** at −259.60. `drmax` barely matters (100 → 1069,
+   1 → 1394). Part (e): `deltaE=1e-3` → 488 steps but −396.06 (plateau).
+   ⚠️ This **refines** the older "aggressive step-size growth finds shallower basins" finding above:
+   what hurts is a bold `alpha` with a *soft* `beta`; bold `alpha` + hard `beta=0.5` is strictly
+   better than the default here.
+2. **Steepest ascent** (student writes the mirrored stepper; the check verifies the first step is
+   exactly minus the descent step). Ascent **blows up in 21 steps**, −66.11 → 7.33e12, ×1.7–2.1 per
+   step early on; closest pair 52.3 → **6.20** (`Sigma=56`) — the figure rings that merged pair in
+   red. Teaching point: the surface is **unbounded above** (r⁻¹² beats Coulomb's 1/r at contact), so
+   there is no maximum to find. Part (d) runs the **half-fixed** variant (ascent stepper + *descent*
+   dr test): `dr` collapses, it reports **`converged` at E = +1015.4** after 110 steps — a stalled
+   run wearing a convergence flag.
+3. **"How local is local?"** (student writes `minimize_with_seed(s)` — the teachable catch is that
+   `InitConf` takes no seed argument, it reads the **global** `Seed`; the provided scan wraps the
+   call in `redirect_stdout` to swallow InitConf's chatter and **restores `Seed` afterwards**).
+   Ten seeds 100-109: mean −343.4, sd 30.1, best −409.4 (seed 100), worst −302.7 (seed 104) — a
+   **107 kcal/mol spread, 31 % of the mean**. Punchline: **`Seed = 100` is the best of the ten**
+   (and still the best of 30: seeds 100-129 give mean −311.8 ± 57.2, worst −193.1), so the −409
+   quoted throughout the notebook and in §12 is the lucky run, not a typical one. Correlation
+   between starting and final energy **r = +0.04** — a better start buys nothing. Figures: sorted
+   bar chart with the spread shaded + start-vs-final scatter; then **deepest vs shallowest final
+   configuration**, which is the money shot — seed 100 ends as **one compact cluster**, seed 104 as
+   **three separate fragments** that no downhill move can merge. Part (f) turns this back on §12:
+   the 26 kcal/mol SD-vs-CG gap there is well inside the seed spread, so it is not evidence;
+   the simplex's −187 is outside it, so that weakness is real.
+
+"Going further" (no scaffolding): **the `Dielec`/`Epsilon` balance** (was a full exercise, demoted
+to a bullet on 2026-09-24 — verified numbers, should they ever be needed again: unlike-neighbour
+fraction 0.71/0.61/0.57/0.51 for Dielec 1/4/20/80 and 0.95/0.93/0.71/0.62 for Epsilon
+0.25/1/6.25/25; the two scans collapse onto one curve against `qat²/(Dielec·Sigma)/Epsilon`, and
+`(Dielec=1, Epsilon=25)` vs `(Dielec=4, Epsilon=6.25)` follow bit-identical trajectories —
+`max|E1−4·E2| = 0` — stopping in different places only because `deltaE`/`normFmin` are absolute),
+re-tuning CG/simplex before comparing, a real line search, basin hopping, `frac_neg=0`, a smaller
+box.
+
+Build/rewrite notes: built with `nbformat` from a script that **drops any existing `## **13.
+Exercises**` cell and everything after it**, so a rebuild is idempotent; the file is written with
+`nbformat.writes` and then non-ASCII escaped to `\uXXXX` to match this notebook's existing
+ascii-escaped JSON (otherwise every pre-existing line shows up as a diff). Figures were inspected
+as PNGs, not just checked for absence of errors — several annotations had to be repositioned.
 
 ## Converting a remaining script (checklist)
 

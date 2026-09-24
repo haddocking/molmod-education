@@ -144,6 +144,18 @@ optimisers reach (different) local minima.
 | `LJ-ELEC_EM-conjugate` | `LJ-ELEC_EM-conjugate.py` | **Conjugate gradient** (Fletcher–Reeves), optional steepest-descent warm-up |
 | `LJ-ELEC_EM-simplex`   | `LJ-ELEC_EM-simplex.py`   | **Downhill simplex** (Nelder–Mead) — a derivative-free minimiser |
 
+The steepest-descent notebook ends with **three graded exercises** (§13) for students to code
+themselves, each self-checking and with a folded worked solution:
+
+1. **Tune the step-size controller** — sweep `drmax`, `alpha` and `beta` for the lowest energy in
+   the fewest steps, and learn to tell a *converged* run from a merely *stalled* one.
+2. **Run the minimiser backwards** — write a steepest *ascent* and find that there is nothing to
+   find: the r⁻¹² wall makes the energy unbounded above, so the run explodes in 21 steps.
+3. **How local is "local"?** — minimise ten different random starting configurations and look at
+   the spread of final energies (here: 107 kcal/mol, a third of the mean — and the seed the
+   notebook uses turns out to be the *best* of the ten). The deepest run ends as one compact
+   cluster, the shallowest as three fragments a downhill move can never merge.
+
 *Take-away: gradient methods find deeper minima than the simplex in this high-dimensional search.*
 
 ### 3. Molecular dynamics — letting the system move in time
