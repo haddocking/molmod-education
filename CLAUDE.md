@@ -464,8 +464,6 @@ block), with reusable functions defined above it:
   belongs. Deliberately kept, because they are statements about the *source program's physics*,
   not about its interface: MD-noPBC's "the original no-PBC script's big apparent difference"
   (§6/§7) and MC-PI's "the geometry matches the original program" (§2).
-  One stray reference survives in `LJ-ELEC_EM-conjugate.ipynb` §5 ("instead of using globals as the
-  original GUI did") — left alone so far only because it sat outside the requested scope.
 
 ## Tuning results (with each notebook's current default parameters, Seed=100)
 

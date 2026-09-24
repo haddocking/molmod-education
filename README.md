@@ -20,7 +20,8 @@ Each topic comes in **two flavours**:
   physics is identical; you drive them with buttons and sliders.
 
 > 🚀 **No installation needed:** all notebooks also run **directly in your browser** via JupyterLite
-> at **<https://bonvinlab.org/molmod-education/>** — see [Run in your browser](#run-in-your-browser-no-installation-needed).
+> at **<https://bonvinlab.org/molmod-education/>** — see [Run in your browser](#run-in-your-browser-no-installation-needed),
+> or launch any of them on [Google Colab](#run-on-google-colab).
 
 ---
 
@@ -69,6 +70,36 @@ A few things to know:
 
 The site is rebuilt and redeployed automatically by a GitHub Action on every push to `main`, so it
 always matches the notebooks in `Notebooks/`.
+
+### Run on Google Colab
+
+Prefer to use Google's machines? Every notebook below opens in
+**[Google Colab](https://colab.research.google.com/)** with one click. You need a Google account to
+execute cells; `matplotlib` and `numpy` are already installed there, and the notebooks' first cell
+installs anything else. Edits live in the Colab copy only — use *File → Save a copy in Drive* to keep
+them. The links always open the current version on `main`.
+
+| Topic | Notebook | Open in Colab |
+|---|---|---|
+| 1. Interactions | [`LJ-ELEC_Potentials`](Notebooks/LJ-ELEC_Potentials.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_Potentials.ipynb) |
+| 2. Energy minimisation | [`LJ-ELEC_EM-steepest`](Notebooks/LJ-ELEC_EM-steepest.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_EM-steepest.ipynb) |
+|  | [`LJ-ELEC_EM-conjugate`](Notebooks/LJ-ELEC_EM-conjugate.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_EM-conjugate.ipynb) |
+|  | [`LJ-ELEC_EM-simplex`](Notebooks/LJ-ELEC_EM-simplex.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_EM-simplex.ipynb) |
+| 3. Molecular dynamics | [`LJ-ELEC_MD-Verlet`](Notebooks/LJ-ELEC_MD-Verlet.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_MD-Verlet.ipynb) |
+|  | [`LJ-ELEC_MD-Verlet-noPBC`](Notebooks/LJ-ELEC_MD-Verlet-noPBC.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_MD-Verlet-noPBC.ipynb) |
+|  | [`LJ-ELEC_MD-VelocityVerlet`](Notebooks/LJ-ELEC_MD-VelocityVerlet.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_MD-VelocityVerlet.ipynb) |
+|  | [`LJ-ELEC_MD-SoftCore`](Notebooks/LJ-ELEC_MD-SoftCore.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_MD-SoftCore.ipynb) |
+| 4. Monte Carlo | [`LJ-ELEC_MMC`](Notebooks/LJ-ELEC_MMC.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_MMC.ipynb) |
+|  | [`LJ-ELEC_MMC-dipole`](Notebooks/LJ-ELEC_MMC-dipole.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_MMC-dipole.ipynb) |
+| 5. Thermodynamics | [`Potential-well`](Notebooks/Potential-well.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Potential-well.ipynb) |
+| 6. Algorithms & randomness | [`MC-PI-random`](Notebooks/MC-PI-random.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/MC-PI-random.ipynb) |
+|  | [`GA-optimisation`](Notebooks/GA-optimisation.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/GA-optimisation.ipynb) |
+|  | [`Random-number`](Notebooks/Random-number.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Random-number.ipynb) |
+| 7. Docking | [`HADDOCK3-antibody-antigen-lite`](Notebooks/HADDOCK3-antibody-antigen-lite.ipynb) | *(needs its data folder — [run in your browser](https://bonvinlab.org/molmod-education/))* |
+
+*(The HADDOCK3 tutorial reads the data folder shipped next to it in this repository, which Colab does
+not download when it opens a single notebook — run that one in the browser, or clone the repository
+and run it locally.)*
 
 ### Run the notebooks locally
 
