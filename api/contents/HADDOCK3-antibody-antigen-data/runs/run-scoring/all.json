@@ -2,11 +2,11 @@
   "content": [
     {
       "content": null,
-      "created": "2026-09-24T19:32:15.407897Z",
+      "created": "2026-10-01T07:57:05.073031Z",
       "format": null,
       "hash": null,
       "hash_algorithm": null,
-      "last_modified": "2026-09-24T19:32:15.407897Z",
+      "last_modified": "2026-10-01T07:57:05.073031Z",
       "mimetype": null,
       "name": "4_caprieval",
       "path": "HADDOCK3-antibody-antigen-data/runs/run-scoring/4_caprieval",
@@ -16,11 +16,11 @@
     },
     {
       "content": null,
-      "created": "2026-09-24T19:32:15.408123Z",
+      "created": "2026-10-01T07:57:05.073236Z",
       "format": null,
       "hash": null,
       "hash_algorithm": null,
-      "last_modified": "2026-09-24T19:32:15.408123Z",
+      "last_modified": "2026-10-01T07:57:05.073236Z",
       "mimetype": null,
       "name": "traceback",
       "path": "HADDOCK3-antibody-antigen-data/runs/run-scoring/traceback",
@@ -29,11 +29,11 @@
       "writable": true
     }
   ],
-  "created": "2026-09-24T19:32:15.407897Z",
+  "created": "2026-10-01T07:57:05.073031Z",
   "format": "json",
   "hash": null,
   "hash_algorithm": null,
-  "last_modified": "2026-09-24T19:32:15.407897Z",
+  "last_modified": "2026-10-01T07:57:05.073031Z",
   "mimetype": null,
   "name": "run-scoring",
   "path": "HADDOCK3-antibody-antigen-data/runs/run-scoring",
