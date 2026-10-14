@@ -30,6 +30,7 @@ Each topic comes in **two flavours**:
 ```
 MolMod-education/
 ├── Notebooks/         Jupyter notebooks (.ipynb)  — read/run these
+│   ├── GDNP-data/                        MD distance data for the GDNP analysis notebook
 │   └── HADDOCK3-antibody-antigen-data/   data for the HADDOCK3 tutorial notebook
 ├── src/               standalone GUI scripts (.py) — the source programs
 ├── jupyterlite/       build config for the in-browser JupyterLite site
@@ -39,8 +40,8 @@ MolMod-education/
 ```
 
 Each notebook is paired with the source script of the same name
-(`Notebooks/Potential-well.ipynb` ↔ `src/Potential-well.py`), with three exceptions:
-`LJ-ELEC_Potentials` and `LJ-ELEC_MD-SoftCore` are **notebook only** (derived, no script) and
+(`Notebooks/Potential-well.ipynb` ↔ `src/Potential-well.py`), with four exceptions:
+`LJ-ELEC_Potentials`, `LJ-ELEC_MD-SoftCore` and `MD-analysis-GDNP` are **notebook only** (derived, no script) and
 `pymoltris3.py` is a **script only** (no notebook).
 
 ---
@@ -92,6 +93,7 @@ them. The links always open the current version on `main`.
 | 4. Monte Carlo | [`LJ-ELEC_MMC`](Notebooks/LJ-ELEC_MMC.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_MMC.ipynb) |
 |  | [`LJ-ELEC_MMC-dipole`](Notebooks/LJ-ELEC_MMC-dipole.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/LJ-ELEC_MMC-dipole.ipynb) |
 | 5. Thermodynamics | [`Potential-well`](Notebooks/Potential-well.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Potential-well.ipynb) |
+|  | [`MD-analysis-GDNP`](Notebooks/MD-analysis-GDNP.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/MD-analysis-GDNP.ipynb) |
 | 6. Algorithms & randomness | [`MC-PI-random`](Notebooks/MC-PI-random.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/MC-PI-random.ipynb) |
 |  | [`GA-optimisation`](Notebooks/GA-optimisation.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/GA-optimisation.ipynb) |
 |  | [`Random-number`](Notebooks/Random-number.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Random-number.ipynb) |
@@ -225,6 +227,7 @@ Boltzmann distribution.
 | Notebook | Script | What you learn |
 |---|---|---|
 | `Potential-well` | `Potential-well.py` | A 1D **double-well** Monte Carlo: **well depth = enthalpy**, **well width = entropy**, and temperature as the referee of ΔG = ΔH − TΔS |
+| `MD-analysis-GDNP` | — | **Analysing a real MD simulation**: folding of the GDNP β-turn at five temperatures. Choose a turn/extended criterion, get ΔG from populations, ΔH and ΔS from its temperature dependence, then test convergence over the 130 ns run and estimate error bars by block averaging, then extract folding/unfolding rates and activation energies (data from Fuchs *et al.*, *Biophys. J.* 2006). Four exercises with hidden solutions |
 
 ### 6. Algorithms & randomness — standalone demos
 
