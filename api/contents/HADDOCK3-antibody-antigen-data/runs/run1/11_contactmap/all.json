@@ -2,11 +2,11 @@
   "content": [
     {
       "content": null,
-      "created": "2026-10-01T07:57:05.075674Z",
+      "created": "2026-10-14T19:25:09.379483Z",
       "format": null,
       "hash": null,
       "hash_algorithm": null,
-      "last_modified": "2026-10-01T07:56:51.290916Z",
+      "last_modified": "2026-10-14T19:24:54.393897Z",
       "mimetype": "text/html",
       "name": "cluster2_rank1_chordchart.html",
       "path": "HADDOCK3-antibody-antigen-data/runs/run1/11_contactmap/cluster2_rank1_chordchart.html",
@@ -15,11 +15,11 @@
       "writable": true
     }
   ],
-  "created": "2026-10-01T07:57:05.075674Z",
+  "created": "2026-10-14T19:25:09.379483Z",
   "format": "json",
   "hash": null,
   "hash_algorithm": null,
-  "last_modified": "2026-10-01T07:57:05.075674Z",
+  "last_modified": "2026-10-14T19:25:09.379483Z",
   "mimetype": null,
   "name": "11_contactmap",
   "path": "HADDOCK3-antibody-antigen-data/runs/run1/11_contactmap",

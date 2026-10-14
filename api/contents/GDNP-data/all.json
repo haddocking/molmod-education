@@ -1,0 +1,29 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2026-10-14T19:25:09.372385Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-10-14T19:24:54.389282Z",
+      "mimetype": "text/csv",
+      "name": "GDNP-CA-CA-dist-130ns.csv",
+      "path": "GDNP-data/GDNP-CA-CA-dist-130ns.csv",
+      "size": 341911,
+      "type": "file",
+      "writable": true
+    }
+  ],
+  "created": "2026-10-14T19:25:09.372385Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2026-10-14T19:25:09.372385Z",
+  "mimetype": null,
+  "name": "GDNP-data",
+  "path": "GDNP-data",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}
