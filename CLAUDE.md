@@ -55,6 +55,10 @@ run loop and matplotlib figures, and adds standalone teaching notebooks.
 - **Incidental code cells ship collapsed** via `metadata.jupyter.source_hidden = true` (install/imports,
   pure plotting). Cells students read or edit stay open. Do not hide inputs with CSS — it makes cells
   unrunnable.
+- **Pyodide warning filter**: every import cell has, right after `import matplotlib.pyplot as plt`, an
+  `if sys.platform == "emscripten":` filter for `"The \w+ parameter as float was deprecated"`.
+  JupyterLite's matplotlib 3.10.8 wasm build warns on every text draw; desktop 3.10/3.11 do not.
+  Keep it in new notebooks.
 - **Exercise mechanism**: stubs return NaN/`None`; a guard (`works()`/`solved()`) detects the
   placeholder; every downstream cell degrades gracefully ("Not yet: …"); worked solutions in folded
   `<details>` blocks. The notebook must execute cleanly un-filled.
@@ -138,6 +142,8 @@ Cα(1)–Cα(4) distance of the tetrapeptide GDNP (type VIII β-turn) at 280–3
   - Results are reported honestly: at 0.70 nm, ΔG = 6.6–7.6 kJ/mol (> 0 everywhere); weighted fit
     ΔH = +4.7 ± 1.9 kJ/mol, ΔS = −8 ± 6 J/(mol K) — the ΔH/ΔS split is barely resolved even at 130 ns.
     Don't "fix" this into a cleaner story.
+  - ΔG **rises** with T but P_turn also **rises** (5.5 → 7.6 % at 0.70 nm): the population follows
+    ΔG/RT = ΔH/RT − ΔS/R, and ΔH > 0. Ex2 (d) and Ex3 (d) both say so; don't "correct" it.
   - The cutoff choice is almost purely **entropic** (ΔS −28 → −4 J/(mol K) from 0.60 to 0.80 nm,
     ΔH ≈ 3 kJ/mol).
   - Block averaging is done on **P_turn**, not per-block ΔG (empty blocks give ΔG = ∞). §10 ties the
