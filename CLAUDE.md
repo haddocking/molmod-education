@@ -9,12 +9,13 @@ run loop and matplotlib figures, and adds standalone teaching notebooks.
 
 - `src/` — the 13 standalone `.py` GUI scripts (incl. `pymoltris3.py`).
 - `Notebooks/` — all `.ipynb` notebooks (a notebook's paired script is `src/<same name>.py`), plus
-  two data folders: `HADDOCK3-antibody-antigen-data/` and `GDNP-data/`.
-- `Solutions/` — instructor versions (currently `MD-analysis-GDNP-solutions.ipynb`). Kept **outside
+  three data folders: `HADDOCK3-antibody-antigen-data/`, `GDNP-data/` and `scoring-data/`.
+- `Solutions/` — instructor versions (`MD-analysis-GDNP-solutions.ipynb`, `Docking-scoring-solutions.ipynb`,
+  `Docking-scoring-optimisation-solutions.ipynb`). Kept **outside
   `Notebooks/`** so the JupyterLite site does not publish them.
 - `README.md` — user-facing overview **organised by topic**, with a Colab launch table. Update it
   whenever a notebook is added or its scope changes.
-- `requirements.txt` — notebook deps only (`matplotlib`, `numpy`, jupyter). GUI scripts need only
+- `requirements.txt` — notebook deps only (`matplotlib`, `numpy`, `scikit-learn` for Docking-scoring-optimisation, jupyter). GUI scripts need only
   stdlib + Tk; `pymoltris3.py` needs PyMOL.
 - `jupyterlite/` + `.github/workflows/` — the in-browser site, built with
   `jupyter lite build --contents ../Notebooks` on every push to `main`.
@@ -155,6 +156,57 @@ Cα(1)–Cα(4) distance of the tetrapeptide GDNP (type VIII β-turn) at 280–3
   an instructor banner, `<details open>`, outputs kept. Both notebooks came from one scratchpad
   `nbformat` script (`--solved` flag, not in the repo); the `.ipynb` files are now the source of
   truth — keep them cell-for-cell aligned.
+
+## `Docking-scoring` + `Docking-scoring-optimisation` — scoring docking models
+
+How well does the HADDOCK score rank docking models, and can it be beaten? Two notebooks, no `.py`.
+
+- **Part 1 `Docking-scoring`** (§1–11): theory, data, term distributions; Ex1 weights + `haddock_score`,
+  Ex2 `top_n`, §7 refined, Ex3 `MY_WEIGHTS_*`, §9 random search + cross-validation, §10 Ex4 (questions; `success_rate` provided) on the
+  10 BM5 complexes + transfer of the Ex3/§9 weights. Ex4 is questions only: `success_rate` is provided (no
+  self-check, no `ex4_ok`). numpy/matplotlib only.
+- **Part 2 `Docking-scoring-optimisation`** (§1–8): recap; §3 data + part-1 tools in two collapsed cells (solved
+  code from part 1 — keep in sync if part 1's functions change); §4 recomputes `BEST_W`/`CV`; §5 Ex1 `zscore`;
+  §6 machine learning (scikit-learn); §7 BM5: transfer revisited (z-scored + ML) and leave-one-complex-out.
+- Split on 2026-10-27 from one notebook by a scratchpad script (cells copied, guards and cross-references
+  renumbered); the four `.ipynb` files are the source of truth.
+
+- **Data** (`Notebooks/scoring-data/`, downloaded from raw.githubusercontent.com on Colab):
+  - case study (part 1 §4–9, reused in part 2): `protein-protein-data-{rigidbody,finalref}.csv` from the user: **1GGR**, E. coli
+    IIA(Glc)–HPr (NMR; Wang et al., EMBO J. 2000). Not one of the BM5 `uu_ti5` runs.
+    European export: `;`, BOM, CRLF, and the dot is both thousands separator and decimal point — every
+    number has 3 decimals, so the loader strips dots and divides by 1000. First column is the rank (header
+    mislabelled `HADDOCK-score` in some files).
+  - part 1 §10 + part 2 §7: `bm5-{rigidbody,refined}.tsv`, 10 BM5 complexes (1T6B 3WD5 2GAF 2AJF 3LVK 4LW4 5Y9J 3R9A 1HE8 1BGX)
+    extracted from tintin `/trinity/login/abonvin/benchmarking/docking_benchmarks/protein_protein/output/uu_ti5/uu_ti5/<PDB>/run1_analysis.tgz`
+    (`02_caprieval_analysis` = rigid body, `08_caprieval_analysis` = after flexref + emref). Scenario `uu_ti5`
+    = unbound docking with **true-interface (5 Å) restraints** — this is why every optimisation learns to
+    up-weight AIR; the notebook says so. Chosen for a mix of successes, scoring failures (5Y9J, 3R9A, 1HE8)
+    and one sampling failure (1BGX).
+  - A protein–DNA set (1GCC, AtERF1–GCC-box DNA) was tried and **deleted**: its rigid-body set is
+    degenerate (914/1000 models one pose). The BM5 complexes replaced it.
+- **Weights** (verified by refitting): rigid `vdw 0.01, elec 1, desolv 1, air 0.01, bsa −0.01`; refined
+  `vdw 1, elec 0.2, desolv 1, air 0.1, bsa 0`.
+- **Main criterion is ranking, not correlation**: `RQ10` = mean over N=1..10 of the mean DockQ of the top N;
+  top-N curves; success rates. The random searches optimise RQ10 directly.
+- **Decisions / results to keep** (report honestly):
+  - case study: in-sample search beats HADDOCK easily; cross-validation: real gain in rigid body (9/10
+    splits), overfitting after refinement (3/10).
+  - z-scoring within one set cannot reach new rankings (linear); it makes weights readable (w·σ) and
+    equal z-weights are a parameter-free baseline (bad in rigid body because of vdW clashes).
+  - ML within one complex looks spectacular in rigid body only because near-identical poses put
+    siblings in train and test (nearest-neighbour DockQ r = 0.78) — not a docking rule.
+  - BM5 leave-one-complex-out: modest gain in rigid body (mostly via AIR), none reliable after
+    refinement; in-sample on all ten overestimates. Take-home: optimise on a large benchmark, validate on
+    held-out complexes, under realistic restraints.
+- **Wide tables**: JupyterLab wraps long printed lines. `print_table`/`print_benchmark` collect their lines
+  and call `show_wide(text)` (defined in the imports cell of both parts), which displays a
+  `<pre style="white-space: pre; overflow-x: auto">` block (plus a text/plain fallback): a horizontal
+  scroll bar instead of wrapping. Keep other printed lines ≲ 95 characters.
+- Runtime: part 1 ≈7 s locally (3 s in Pyodide); part 2 ≈38 s (52 s in Pyodide, the leave-one-complex-out
+  cell ≈39 s). scikit-learn is `%pip install`ed in part 2 §6 (Pyodide has it).
+- **Solutions**: `Solutions/Docking-scoring-solutions.ipynb` and `Solutions/Docking-scoring-optimisation-solutions.ipynb`
+  (outputs kept, banner, `<details open>`) — keep each cell-for-cell aligned with its student version.
 
 ## `HADDOCK3-antibody-antigen-lite` — HADDOCK3 tutorial in JupyterLite
 

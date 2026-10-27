@@ -31,7 +31,9 @@ Each topic comes in **two flavours**:
 MolMod-education/
 ├── Notebooks/         Jupyter notebooks (.ipynb)  — read/run these
 │   ├── GDNP-data/                        MD distance data for the GDNP analysis notebook
+│   ├── scoring-data/                     HADDOCK scores and model quality (case study + 10 BM5 complexes)
 │   └── HADDOCK3-antibody-antigen-data/   data for the HADDOCK3 tutorial notebook
+├── Solutions/         instructor versions of the exercise notebooks (not on the JupyterLite site)
 ├── src/               standalone GUI scripts (.py) — the source programs
 ├── jupyterlite/       build config for the in-browser JupyterLite site
 ├── .github/workflows/ GitHub Action that builds & deploys that site
@@ -41,7 +43,7 @@ MolMod-education/
 
 Each notebook is paired with the source script of the same name
 (`Notebooks/Potential-well.ipynb` ↔ `src/Potential-well.py`), with four exceptions:
-`LJ-ELEC_Potentials`, `LJ-ELEC_MD-SoftCore` and `MD-analysis-GDNP` are **notebook only** (derived, no script) and
+`LJ-ELEC_Potentials`, `LJ-ELEC_MD-SoftCore`, `MD-analysis-GDNP` and the two `Docking-scoring` notebooks are **notebook only** (derived, no script) and
 `pymoltris3.py` is a **script only** (no notebook).
 
 ---
@@ -97,7 +99,9 @@ them. The links always open the current version on `main`.
 | 6. Algorithms & randomness | [`MC-PI-random`](Notebooks/MC-PI-random.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/MC-PI-random.ipynb) |
 |  | [`GA-optimisation`](Notebooks/GA-optimisation.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/GA-optimisation.ipynb) |
 |  | [`Random-number`](Notebooks/Random-number.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Random-number.ipynb) |
-| 7. Docking | [`HADDOCK3-antibody-antigen-lite`](Notebooks/HADDOCK3-antibody-antigen-lite.ipynb) | *(needs its data folder — [run in your browser](https://bonvinlab.org/molmod-education/))* |
+| 7. Docking | [`Docking-scoring`](Notebooks/Docking-scoring.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Docking-scoring.ipynb) |
+|  | [`Docking-scoring-optimisation`](Notebooks/Docking-scoring-optimisation.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Docking-scoring-optimisation.ipynb) |
+|  | [`HADDOCK3-antibody-antigen-lite`](Notebooks/HADDOCK3-antibody-antigen-lite.ipynb) | *(needs its data folder — [run in your browser](https://bonvinlab.org/molmod-education/))* |
 
 *(The HADDOCK3 tutorial reads the data folder shipped next to it in this repository, which Colab does
 not download when it opens a single notebook — run that one in the browser, or clone the repository
@@ -111,7 +115,8 @@ python3 -m pip install -r requirements.txt
 jupyter lab            # then open anything in Notebooks/
 ```
 
-The only third-party packages are **matplotlib**, **numpy** and a **Jupyter** runtime.
+The only third-party packages are **matplotlib**, **numpy** and a **Jupyter** runtime, plus
+**scikit-learn** for the machine-learning section of `Docking-scoring-optimisation`.
 
 ### Run the GUI scripts
 
@@ -239,9 +244,16 @@ Small self-contained programs, not the LJ particle system.
 | `GA-optimisation` | `GA-optimisation.py` | A **genetic algorithm** evolving a target string (selection, crossover, mutation) |
 | `Random-number` | `Random-number.py` | **How random are random numbers?** — a good RNG (Mersenne Twister) vs a deliberately bad one (*uniform ≠ random*) |
 
-### 7. Docking — modelling an antibody-antigen complex with HADDOCK3
+### 7. Docking — scoring models, and a full HADDOCK3 run
 
-A full [HADDOCK3](https://www.bonvinlab.org/haddock3/) tutorial: preparing the structures,
+| Notebook | Script | What you learn |
+|---|---|---|
+| `Docking-scoring` | — | **Scoring docking models**: the HADDOCK score of 1000 rigid-body and 200 refined models of a protein–protein complex (IIA<sup>Glc</sup>–HPr, PDB 1GGR), against their quality (DockQ, CAPRI classes). Rebuild the score from its terms, judge it by correlation *and* by the top of the ranking (top-N curves, a ranking-quality criterion), try to beat it with your own weights and a random search, check the gain by cross-validation (real in rigid body, overfitting after refinement), then test whether the improved score transfers to ten complexes of the Docking Benchmark 5 (success rates). Three coding exercises and a fourth with questions only, all with hidden solutions |
+| `Docking-scoring-optimisation` | — | **Part 2: optimising a scoring function**. Does **normalising** the score terms help (z-scores: what they can and cannot do)? Does **machine learning** (regression, k-nearest neighbours, random forest) rank better — within one complex, and on other complexes? And how should a scoring function be optimised: tuned on nine benchmark complexes, tested on the tenth. One exercise with a hidden solution |
+
+Both read their data from `Notebooks/scoring-data/` (or download it, e.g. on Colab).
+
+`HADDOCK3-antibody-antigen-lite` is a full [HADDOCK3](https://www.bonvinlab.org/haddock3/) tutorial: preparing the structures,
 turning a predicted paratope and an NMR-mapped epitope into distance restraints, running the
 docking workflow and analysing the models. Not an LJ particle system — this one uses the real
 docking software.

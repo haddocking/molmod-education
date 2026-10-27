@@ -15,6 +15,7 @@
 # -----------------------------------------------------------------------------
 matplotlib>=3.6        # plots + animations (FuncAnimation, jshtml) in every notebook
 numpy>=1.23            # used by Potential-well.ipynb and Random-number.ipynb
+scikit-learn>=1.3      # random forest in Docking-scoring-optimisation.ipynb (section 6)
 
 # Jupyter runtime to open and run the notebooks (JupyterLab; classic Notebook also listed)
 jupyterlab>=4.0
