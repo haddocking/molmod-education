@@ -203,6 +203,9 @@ How well does the HADDOCK score rank docking models, and can it be beaten? Two n
   and call `show_wide(text)` (defined in the imports cell of both parts), which displays a
   `<pre style="white-space: pre; overflow-x: auto">` block (plus a text/plain fallback): a horizontal
   scroll bar instead of wrapping. Keep other printed lines ≲ 95 characters.
+- **Top-N curves plot DockQ**: legend entries read "ranked by <score>: mean/best DockQ of top N" — the label
+  names the score used for *sorting*, never the plotted quantity. Searched weights are shown with
+  `print_weights` (HADDOCK vs search vs ratio, via `show_wide`), defined in part 1 §9 and part 2 §4.
 - Runtime: part 1 ≈7 s locally (3 s in Pyodide); part 2 ≈38 s (52 s in Pyodide, the leave-one-complex-out
   cell ≈39 s). scikit-learn is `%pip install`ed in part 2 §6 (Pyodide has it).
 - **Solutions**: `Solutions/Docking-scoring-solutions.ipynb` and `Solutions/Docking-scoring-optimisation-solutions.ipynb`
