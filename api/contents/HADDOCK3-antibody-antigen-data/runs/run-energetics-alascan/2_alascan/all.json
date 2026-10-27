@@ -2,11 +2,11 @@
   "content": [
     {
       "content": null,
-      "created": "2026-10-27T09:06:19.043028Z",
+      "created": "2026-10-27T16:17:43.422561Z",
       "format": null,
       "hash": null,
       "hash_algorithm": null,
-      "last_modified": "2026-10-27T09:06:03.688598Z",
+      "last_modified": "2026-10-27T16:17:27.428409Z",
       "mimetype": "text/html",
       "name": "scan_clt_unclustered.html",
       "path": "HADDOCK3-antibody-antigen-data/runs/run-energetics-alascan/2_alascan/scan_clt_unclustered.html",
@@ -16,11 +16,11 @@
     },
     {
       "content": null,
-      "created": "2026-10-27T09:06:19.043248Z",
+      "created": "2026-10-27T16:17:43.422876Z",
       "format": null,
       "hash": null,
       "hash_algorithm": null,
-      "last_modified": "2026-10-27T09:06:03.688855Z",
+      "last_modified": "2026-10-27T16:17:27.428543Z",
       "mimetype": "text/tab-separated-values",
       "name": "scan_clt_unclustered.tsv",
       "path": "HADDOCK3-antibody-antigen-data/runs/run-energetics-alascan/2_alascan/scan_clt_unclustered.tsv",
@@ -29,11 +29,11 @@
       "writable": true
     }
   ],
-  "created": "2026-10-27T09:06:19.043062Z",
+  "created": "2026-10-27T16:17:43.422876Z",
   "format": "json",
   "hash": null,
   "hash_algorithm": null,
-  "last_modified": "2026-10-27T09:06:19.043062Z",
+  "last_modified": "2026-10-27T16:17:43.422876Z",
   "mimetype": null,
   "name": "2_alascan",
   "path": "HADDOCK3-antibody-antigen-data/runs/run-energetics-alascan/2_alascan",

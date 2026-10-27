@@ -2,11 +2,11 @@
   "content": [
     {
       "content": null,
-      "created": "2026-10-27T09:06:19.045001Z",
+      "created": "2026-10-27T16:17:43.425945Z",
       "format": null,
       "hash": null,
       "hash_algorithm": null,
-      "last_modified": "2026-10-27T09:06:03.690208Z",
+      "last_modified": "2026-10-27T16:17:27.429327Z",
       "mimetype": "text/tab-separated-values",
       "name": "capri_ss.tsv",
       "path": "HADDOCK3-antibody-antigen-data/runs/run1/07_caprieval/capri_ss.tsv",
@@ -16,11 +16,11 @@
     },
     {
       "content": null,
-      "created": "2026-10-27T09:06:19.044847Z",
+      "created": "2026-10-27T16:17:43.425677Z",
       "format": null,
       "hash": null,
       "hash_algorithm": null,
-      "last_modified": "2026-10-27T09:06:03.690121Z",
+      "last_modified": "2026-10-27T16:17:27.429195Z",
       "mimetype": "text/tab-separated-values",
       "name": "capri_clt.tsv",
       "path": "HADDOCK3-antibody-antigen-data/runs/run1/07_caprieval/capri_clt.tsv",
@@ -29,11 +29,11 @@
       "writable": true
     }
   ],
-  "created": "2026-10-27T09:06:19.045001Z",
+  "created": "2026-10-27T16:17:43.425945Z",
   "format": "json",
   "hash": null,
   "hash_algorithm": null,
-  "last_modified": "2026-10-27T09:06:19.045001Z",
+  "last_modified": "2026-10-27T16:17:43.425945Z",
   "mimetype": null,
   "name": "07_caprieval",
   "path": "HADDOCK3-antibody-antigen-data/runs/run1/07_caprieval",
