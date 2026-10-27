@@ -1,0 +1,71 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2026-10-27T09:06:19.054041Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-10-27T09:06:03.706825Z",
+      "mimetype": "text/csv",
+      "name": "protein-protein-data-rigidbody.csv",
+      "path": "scoring-data/protein-protein-data-rigidbody.csv",
+      "size": 69644,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-10-27T09:06:19.053869Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-10-27T09:06:03.706825Z",
+      "mimetype": "text/csv",
+      "name": "protein-protein-data-finalref.csv",
+      "path": "scoring-data/protein-protein-data-finalref.csv",
+      "size": 13328,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-10-27T09:06:19.051811Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-10-27T09:06:03.698824Z",
+      "mimetype": "text/tab-separated-values",
+      "name": "bm5-refined.tsv",
+      "path": "scoring-data/bm5-refined.tsv",
+      "size": 181338,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-10-27T09:06:19.052282Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-10-27T09:06:03.705825Z",
+      "mimetype": "text/tab-separated-values",
+      "name": "bm5-rigidbody.tsv",
+      "path": "scoring-data/bm5-rigidbody.tsv",
+      "size": 930266,
+      "type": "file",
+      "writable": true
+    }
+  ],
+  "created": "2026-10-27T09:06:19.053869Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2026-10-27T09:06:19.053869Z",
+  "mimetype": null,
+  "name": "scoring-data",
+  "path": "scoring-data",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}
