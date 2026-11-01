@@ -9,9 +9,10 @@ run loop and matplotlib figures, and adds standalone teaching notebooks.
 
 - `src/` — the 13 standalone `.py` GUI scripts (incl. `pymoltris3.py`).
 - `Notebooks/` — all `.ipynb` notebooks (a notebook's paired script is `src/<same name>.py`), plus
-  three data folders: `HADDOCK3-antibody-antigen-data/`, `GDNP-data/` and `scoring-data/`.
+  four data folders: `HADDOCK3-antibody-antigen-data/`, `GDNP-data/`, `scoring-data/` and `ESMFold-data/`.
 - `Solutions/` — instructor versions (`MD-analysis-GDNP-solutions.ipynb`, `Docking-scoring-solutions.ipynb`,
-  `Docking-scoring-optimisation-solutions.ipynb`, `GA-optimisation-solutions.ipynb`). Kept **outside
+  `Docking-scoring-optimisation-solutions.ipynb`, `GA-optimisation-solutions.ipynb`,
+  `Structure-prediction-ESMFold-solutions.ipynb`). Kept **outside
   `Notebooks/`** so the JupyterLite site does not publish them.
 - `README.md` — user-facing overview **organised by topic**, with a Colab launch table. Update it
   whenever a notebook is added or its scope changes.
@@ -122,8 +123,12 @@ run loop and matplotlib figures, and adds standalone teaching notebooks.
 ### Algorithms and randomness
 - **`MC-PI-random`**: π from darts + BBP series. **`GA-optimisation`**: genetic algorithm on a string
   (`MUTATION_RATE=0.05`, optional `SWAP_RATE`). `GENES` has 85 distinct characters (a duplicate space was
-  removed; the seed-100 run converges at generation 161); the theory gives the search space 85⁵² ≈ 2×10¹⁰⁰
-  (exponential, not N!). §8 exercise: students fill lists of values; `scan()` runs `convergence()` over
+  removed). `TARGET` = "I am having a lot of fun learning about molecular modelling!" (60 characters, user's
+  choice, 2026-11-01; the seed-100 run converges at generation 222). The theory gives the search space
+  85⁶⁰ ≈ 6×10¹¹⁵ (exponential, not N!; 60! ≈ 8×10⁸¹), ≈2×10⁹⁰ years even at exascale (10¹⁸ strings/s, the user's
+  framing). With 60 characters `MUTATION_RATE = 0.10` needs ≈4000 generations (seed 100) or > 8000; in the §8
+  scan 0.02 is fastest (≈ 1/length rule), not the default 0.05 — the answers say so. The swap-block claim in
+  the theory (≈2 fine, length-5 ≈ doubles) was measured with the old 52-character target and not re-checked. §8 exercise: students fill lists of values; `scan()` runs `convergence()` over
   seeds 1–5 (cap 1000 generations, a failed run counts as slowest in the median) for population size
   (with fixed and scaled `PARENT_POOL` — with pool ≥ population there is no selection), mutation rate,
   parent pool/elite and swap rate. Answers quote the solution outputs; ≈80 s locally. Solutions
@@ -216,6 +221,50 @@ How well does the HADDOCK score rank docking models, and can it be beaten? Two n
   cell ≈39 s). scikit-learn is `%pip install`ed in part 2 §6 (Pyodide has it).
 - **Solutions**: `Solutions/Docking-scoring-solutions.ipynb` and `Solutions/Docking-scoring-optimisation-solutions.ipynb`
   (outputs kept, banner, `<details open>`) — keep each cell-for-cell aligned with its student version.
+
+## `Structure-prediction-ESMFold` — fold your name
+
+Students turn their name (+ address) into a sequence of the 20 one-letter codes, predict it with ESMFold,
+and judge confidence (pLDDT per residue; pTM) and secondary structure. No `.py`. **No PAE** (removed on request).
+
+- **Two files from one scratchpad `nbformat` script** (not in the repo): `Notebooks/Structure-prediction-ESMFold.ipynb`
+  (server/upload/example; JupyterLite + Colab + local) and `Solutions/Structure-prediction-ESMFold-solutions.ipynb`
+  (filled in, answers open, outputs kept). Keep them cell-for-cell aligned.
+- **Step 1 is done by hand**: students write `MY_TEXT` and `MY_SEQUENCE` (only the 20 codes, capitals); `validate()`
+  shows a green/red box and sets `SEQUENCE_OK`, which gates every later cell ("Not yet: …"). It reports
+  lower case, spaces, digits, B/J/O/U/X/Z, letters dropped or added versus `MY_TEXT` (difflib), length < 10
+  or > 400 (the server's limit). Accents count as the plain letter (NFKD).
+- **Prediction**: ESM Atlas API `POST https://api.esmatlas.com/foldSequence/v1/pdb/` (plain-text body, CORS `*`,
+  ≤ 400 aa, pLDDT 0–1 in B-factors). In Pyodide a **synchronous XMLHttpRequest** with `Content-Type: text/plain`
+  (no preflight; the OPTIONS preflight is refused with 403). As of 2026-11-01 the server returns **504 for every
+  new sequence** (only cached ones come back). Fallbacks: `MY_STRUCTURE_FILE` (PDB or mmCIF from the servers in step 2's table: AlphaFold Server,
+  ColabFold, Chai-1, Protenix, Boltz-2/Tamarind, OpenFold3/Neurosnap, with references; mmCIF converted with Biopython), then the pre-computed example.
+- **No Colab-GPU version** (dropped on the user's decision, 2026-11-01). It was tried twice: ColabFold's `ESMFold.ipynb`
+  install fails on Colab ("No module named 'openfold'", ColabFold issue #535), and a Hugging Face `transformers`
+  version (`EsmForProteinFolding`) was then judged not workable for the course. Do not reintroduce one unasked.
+- **`Notebooks/ESMFold-data/`**: example, example_shuffled, ubiquitin, ubiquitin_shuffled (shuffles with `random.Random(1)`,
+  as in the notebook), design_example (`TVTVTVTVTVNGKTVTVTVTVTV`), each `.pdb` (pLDDT 0–1 in B-factors),
+  and `confidence.json` (sequence, pTM). Predicted locally with ESMFold v1 through `transformers`
+  (`facebook/esmfold_v1`, CPU, a few seconds each, deterministic; the only missing weights are the unused LM
+  contact head). The notebook attaches the pTM only to *pre-computed* structures (`with_confidence`): the server
+  returns only the structure. Numbers quoted in the answers:
+  - example: helix 2–10 + loop SDATA + helix 16–32, pLDDT 77.8, pTM 0.48;
+  - example shuffled: one long helix, pLDDT 81.2, pTM 0.41 (order hardly matters for the name);
+  - ubiquitin: pLDDT 90.5, pTM 0.83, disordered LRGG tail; **ubiquitin shuffled: pLDDT 39.2, 0 % above 70, pTM 0.15**
+    (the order encodes the fold);
+  - design: two strands + NG turn, pLDDT 93, pTM 0.25. ESMFold also predicts trpzip2 and the GB1 hairpin as hairpins.
+- **Step 7 exercise (design a β-sheet)**: `MY_DESIGN` (10–40 aa, `validate(None, …, name="MY_DESIGN")`), `report_design`
+  passes with ≥ 2 strands, ≥ 40 % strand and mean pLDDT ≥ 70. The hint (β-branched V/I/T) is visible; the N-G turn
+  is a folded second hint; the Chou–Fasman propensity table is **only in the folded answer** (user's choice).
+- The 3D view is coloured by pLDDT only (the secondary-structure-coloured view was removed on request).
+- **3Dmol quirks**: pass `{"noComputeSecondaryStructure": True}` to `addModel`, or 3Dmol recomputes its own SS; and
+  drop a bare `END` line, which makes 3Dmol's PDB parser discard the HELIX/SHEET records.
+- **Simplified DSSP** (toolbox): DSSP H-bond energy; α-helix = two consecutive i→i+4 turns; strand = any
+  parallel or antiparallel bridge; 3₁₀-helices count as coil. It agrees with `pydssp` on 92–100 % of residues
+  (1UBQ, 1MBN, 1TEN, 2PTC; the differences are 3₁₀-helices). It writes HELIX/SHEET records so 3Dmol's cartoon matches.
+- 3D views reuse the HADDOCK3-lite `<iframe srcdoc>` pattern (`show_html`/`show3d`), coloured by pLDDT
+  (AlphaFold colours); residue letters label the CAs for ≤ 60 residues.
+- Example text (user's choice): "MATHEMATICS, DATA AND MOLECULAR MODELLING" → `MATHEMATICSDATAANDMLECLARMDELLING` (33).
 
 ## `HADDOCK3-antibody-antigen-lite` — HADDOCK3 tutorial in JupyterLite
 

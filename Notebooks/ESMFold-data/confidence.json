@@ -1,0 +1,22 @@
+{
+ "example": {
+  "sequence": "MATHEMATICSDATAANDMLECLARMDELLING",
+  "ptm": 0.478
+ },
+ "example_shuffled": {
+  "sequence": "TDSIELTNMACCMDNDLTAMMLAAELARAHGEI",
+  "ptm": 0.413
+ },
+ "ubiquitin": {
+  "sequence": "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG",
+  "ptm": 0.829
+ },
+ "ubiquitin_shuffled": {
+  "sequence": "SLISTYPSLTVPVRREKIVKLKGQIGGQQTLIIDQEETNTLLGRADQDTPLGGKFMLHDANRVFKIKQIDEEKTLE",
+  "ptm": 0.15
+ },
+ "design_example": {
+  "sequence": "TVTVTVTVTVNGKTVTVTVTVTV",
+  "ptm": 0.247
+ }
+}

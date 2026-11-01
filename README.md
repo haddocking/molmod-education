@@ -32,6 +32,7 @@ MolMod-education/
 ├── Notebooks/         Jupyter notebooks (.ipynb)  — read/run these
 │   ├── GDNP-data/                        MD distance data for the GDNP analysis notebook
 │   ├── scoring-data/                     HADDOCK scores and model quality (case study + 10 BM5 complexes)
+│   ├── ESMFold-data/                     pre-computed ESMFold structures for the structure-prediction notebook
 │   └── HADDOCK3-antibody-antigen-data/   data for the HADDOCK3 tutorial notebook
 ├── Solutions/         instructor versions of the exercise notebooks (not on the JupyterLite site)
 ├── src/               standalone GUI scripts (.py) — the source programs
@@ -43,7 +44,7 @@ MolMod-education/
 
 Each notebook is paired with the source script of the same name
 (`Notebooks/Potential-well.ipynb` ↔ `src/Potential-well.py`), with four exceptions:
-`LJ-ELEC_Potentials`, `LJ-ELEC_MD-SoftCore`, `MD-analysis-GDNP` and the two `Docking-scoring` notebooks are **notebook only** (derived, no script) and
+`LJ-ELEC_Potentials`, `LJ-ELEC_MD-SoftCore`, `MD-analysis-GDNP`, the two `Docking-scoring` notebooks and `Structure-prediction-ESMFold` are **notebook only** (derived, no script) and
 `pymoltris3.py` is a **script only** (no notebook).
 
 ---
@@ -102,6 +103,7 @@ them. The links always open the current version on `main`.
 | 7. Docking | [`Docking-scoring`](Notebooks/Docking-scoring.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Docking-scoring.ipynb) |
 |  | [`Docking-scoring-optimisation`](Notebooks/Docking-scoring-optimisation.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Docking-scoring-optimisation.ipynb) |
 |  | [`HADDOCK3-antibody-antigen-lite`](Notebooks/HADDOCK3-antibody-antigen-lite.ipynb) | *(needs its data folder — [run in your browser](https://bonvinlab.org/molmod-education/))* |
+| 8. Structure prediction | [`Structure-prediction-ESMFold`](Notebooks/Structure-prediction-ESMFold.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haddocking/molmod-education/blob/main/Notebooks/Structure-prediction-ESMFold.ipynb) |
 
 *(The HADDOCK3 tutorial reads the data folder shipped next to it in this repository, which Colab does
 not download when it opens a single notebook — run that one in the browser, or clone the repository
@@ -241,7 +243,7 @@ Small self-contained programs, not the LJ particle system.
 | Notebook | Script | What you learn |
 |---|---|---|
 | `MC-PI-random`  | `MC-PI-random.py`  | **Monte Carlo estimation of π** (darts in a circle, 1/√N convergence) |
-| `GA-optimisation` | `GA-optimisation.py` | A **genetic algorithm** evolving a target string (selection, crossover, mutation); how big the search space is (85⁵² ≈ 10¹⁰⁰ strings). An exercise measures how population size, mutation rate, selection pressure and swap mutation change the speed of convergence (over several seeds), with hidden answers |
+| `GA-optimisation` | `GA-optimisation.py` | A **genetic algorithm** evolving a target string (selection, crossover, mutation); how big the search space is (85⁶⁰ ≈ 6 × 10¹¹⁵ strings). An exercise measures how population size, mutation rate, selection pressure and swap mutation change the speed of convergence (over several seeds), with hidden answers |
 | `Random-number` | `Random-number.py` | **How random are random numbers?** — a good RNG (Mersenne Twister) vs a deliberately bad one (*uniform ≠ random*) |
 
 ### 7. Docking — scoring models, and a full HADDOCK3 run
@@ -269,7 +271,23 @@ pure-Python reimplementations of the `haddock3-restraints` sub-commands that giv
 output. Its data (1.6 MB, a trimmed copy of the tutorial bundle) ships in
 `Notebooks/HADDOCK3-antibody-antigen-data/`.
 
-### 8. Just for fun — Tetris in PyMOL
+### 8. Structure prediction — fold your name
+
+Students write their **name (and address) as a protein sequence**, keeping only the 20 one-letter
+amino-acid codes, and predict its 3D structure with **ESMFold**. They look at it in 3D, judge the
+**confidence of the prediction** (pLDDT per residue, pTM for the overall fold) and assign
+the **secondary structure**. They then compare it with a real protein (ubiquitin), and both with their
+**shuffled** sequences: does the order matter? Finally, they **design a short sequence that folds into a
+β-sheet**. Does your name fold, and should you believe it?
+
+| Notebook | Runs where | What you learn |
+|---|---|---|
+| `Structure-prediction-ESMFold` | in your browser (JupyterLite), Colab, locally | The 20 amino acids. A validation step gives the green light for the prediction. The prediction comes from the free **ESMFold server** (ESM Metagenomic Atlas). If the server is down, students can upload a structure predicted on a free server (AlphaFold Server, ColabFold, Chai-1, Protenix, Boltz-2, OpenFold3; listed with references in the notebook), or continue with a pre-computed example. Then: a 3D view coloured by **pLDDT**, a per-residue pLDDT plot (and the pTM for the pre-computed structures: the free server returns only the structure), a simplified **DSSP** and a **Ramachandran plot**, and a comparison of your sequence and ubiquitin with their shuffled versions. Ends with an exercise: **design a β-sheet** (hint: β-branched amino acids). Questions with hidden answers |
+
+The example sentence is "MATHEMATICS, DATA AND MOLECULAR MODELLING". The pre-computed structures, with their
+pTM (example, ubiquitin, both shuffled, and a designed β-hairpin), are in `Notebooks/ESMFold-data/`.
+
+### 9. Just for fun — Tetris in PyMOL
 
 | Script | What it is |
 |---|---|
