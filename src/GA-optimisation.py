@@ -26,7 +26,7 @@ SWAP_RATE = 0.0
 # Valid genes (single string -- must NOT contain a line break)
 GENES = (
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP"
-    'QRSTUVWXYZ 1234567890, .-;:_!"#%&/()=?@${[]}'
+    'QRSTUVWXYZ 1234567890,.-;:_!"#%&/()=?@${[]}'
 )
 
 

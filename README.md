@@ -241,7 +241,7 @@ Small self-contained programs, not the LJ particle system.
 | Notebook | Script | What you learn |
 |---|---|---|
 | `MC-PI-random`  | `MC-PI-random.py`  | **Monte Carlo estimation of π** (darts in a circle, 1/√N convergence) |
-| `GA-optimisation` | `GA-optimisation.py` | A **genetic algorithm** evolving a target string (selection, crossover, mutation) |
+| `GA-optimisation` | `GA-optimisation.py` | A **genetic algorithm** evolving a target string (selection, crossover, mutation); how big the search space is (85⁵² ≈ 10¹⁰⁰ strings). An exercise measures how population size, mutation rate, selection pressure and swap mutation change the speed of convergence (over several seeds), with hidden answers |
 | `Random-number` | `Random-number.py` | **How random are random numbers?** — a good RNG (Mersenne Twister) vs a deliberately bad one (*uniform ≠ random*) |
 
 ### 7. Docking — scoring models, and a full HADDOCK3 run

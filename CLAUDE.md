@@ -11,7 +11,7 @@ run loop and matplotlib figures, and adds standalone teaching notebooks.
 - `Notebooks/` — all `.ipynb` notebooks (a notebook's paired script is `src/<same name>.py`), plus
   three data folders: `HADDOCK3-antibody-antigen-data/`, `GDNP-data/` and `scoring-data/`.
 - `Solutions/` — instructor versions (`MD-analysis-GDNP-solutions.ipynb`, `Docking-scoring-solutions.ipynb`,
-  `Docking-scoring-optimisation-solutions.ipynb`). Kept **outside
+  `Docking-scoring-optimisation-solutions.ipynb`, `GA-optimisation-solutions.ipynb`). Kept **outside
   `Notebooks/`** so the JupyterLite site does not publish them.
 - `README.md` — user-facing overview **organised by topic**, with a Colab launch table. Update it
   whenever a notebook is added or its scope changes.
@@ -121,8 +121,14 @@ run loop and matplotlib figures, and adds standalone teaching notebooks.
 
 ### Algorithms and randomness
 - **`MC-PI-random`**: π from darts + BBP series. **`GA-optimisation`**: genetic algorithm on a string
-  (`MUTATION_RATE=0.05`, optional `SWAP_RATE`). **`Random-number`**: Mersenne Twister vs a bad LCG
-  (`a=1229, c=1, m=2048`) — passes a 1-D uniformity test, fails lag-1 autocorrelation.
+  (`MUTATION_RATE=0.05`, optional `SWAP_RATE`). `GENES` has 85 distinct characters (a duplicate space was
+  removed; the seed-100 run converges at generation 161); the theory gives the search space 85⁵² ≈ 2×10¹⁰⁰
+  (exponential, not N!). §8 exercise: students fill lists of values; `scan()` runs `convergence()` over
+  seeds 1–5 (cap 1000 generations, a failed run counts as slowest in the median) for population size
+  (with fixed and scaled `PARENT_POOL` — with pool ≥ population there is no selection), mutation rate,
+  parent pool/elite and swap rate. Answers quote the solution outputs; ≈80 s locally. Solutions
+  version `Solutions/GA-optimisation-solutions.ipynb` (outputs kept, answers open).
+- **`Random-number`**: Mersenne Twister vs a bad LCG (`a=1229, c=1, m=2048`) — passes a 1-D uniformity test, fails lag-1 autocorrelation.
 
 ## `MD-analysis-GDNP` — analysis of a real MD simulation
 
