@@ -4,7 +4,7 @@
 import random
 
 # Target string to be generated
-TARGET = "Structural bioinformatics is the best master course!"
+TARGET = "I am having a lot of fun learning about molecular modelling!"
 
 # Number of individuals in each generation
 POPULATION_SIZE = 200
