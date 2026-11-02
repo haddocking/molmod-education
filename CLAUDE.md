@@ -238,7 +238,7 @@ and judge confidence (pLDDT per residue; pTM) and secondary structure. No `.py`.
   ≤ 400 aa, pLDDT 0–1 in B-factors). In Pyodide a **synchronous XMLHttpRequest** with `Content-Type: text/plain`
   (no preflight; the OPTIONS preflight is refused with 403). As of 2026-11-01 the server returns **504 for every
   new sequence** (only cached ones come back). Fallbacks: `MY_STRUCTURE_FILE` (PDB or mmCIF from the servers in step 2's table: AlphaFold Server,
-  ColabFold, Chai-1, Protenix, Boltz-2/Tamarind, OpenFold3/Neurosnap, with references; mmCIF converted with Biopython), then the pre-computed example.
+  ColabFold, Protenix, Boltz-2/Tamarind, OpenFold3/Neurosnap, with references; mmCIF converted with Biopython), then the pre-computed example.
 - **No Colab-GPU version** (dropped on the user's decision, 2026-11-01). It was tried twice: ColabFold's `ESMFold.ipynb`
   install fails on Colab ("No module named 'openfold'", ColabFold issue #535), and a Hugging Face `transformers`
   version (`EsmForProteinFolding`) was then judged not workable for the course. Do not reintroduce one unasked.
