@@ -247,7 +247,8 @@ and judge confidence (pLDDT per residue; pTM) and secondary structure. No `.py`.
   and `confidence.json` (sequence, pTM). Predicted locally with ESMFold v1 through `transformers`
   (`facebook/esmfold_v1`, CPU, a few seconds each, deterministic; the only missing weights are the unused LM
   contact head). The notebook attaches the pTM only to *pre-computed* structures (`with_confidence`): the server
-  returns only the structure. Numbers quoted in the answers:
+  returns only the structure. The intro explains pTM (TM-score); step 4 prints it, or "pTM not available" plus the
+  example's 0.48, and its question (b) points students to the example. Step 6 shows the four models in a 2×2 viewer grid. Numbers quoted in the answers:
   - example: helix 2–10 + loop SDATA + helix 16–32, pLDDT 77.8, pTM 0.48;
   - example shuffled: one long helix, pLDDT 81.2, pTM 0.41 (order hardly matters for the name);
   - ubiquitin: pLDDT 90.5, pTM 0.83, disordered LRGG tail; **ubiquitin shuffled: pLDDT 39.2, 0 % above 70, pTM 0.15**
