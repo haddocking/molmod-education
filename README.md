@@ -318,4 +318,5 @@ pTM (example, ubiquitin, both shuffled, and a designed β-hairpin), are in `Note
 ## Contributors
 
 Some of the original python scripts were adapted from scripts written by Dr. Patrick Fuchs, University Paris Diderot.
+The genetic algorithm (`GA-optimisation`) was adapted from the [GeeksforGeeks genetic-algorithm example](https://www.geeksforgeeks.org/genetic-algorithms/).
 The scripts and their notebooks are originating from the [Bonvin group](https://bonvinlab.org) at Utrecht University.
